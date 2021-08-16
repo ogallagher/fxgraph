@@ -9,8 +9,17 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * Demo of a sequence diagram that makes use of more specialized {@link ActorCell cells and {@link MessageEdge edges}.
+ * 
+ * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+ * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+ *
+ */
 public class SequenceDiagramDemo extends Application {
-
+	/**
+	 * Main gui app entrypoint.
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
 		SequenceDiagram diagram = new SequenceDiagram();

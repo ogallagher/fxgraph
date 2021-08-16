@@ -9,20 +9,50 @@ import javafx.scene.layout.Region;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Owns all cells and edges that can be displayed on a {@link Graph graph}.
+ * 
+ * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+ * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+ *
+ */
 public class Model implements Serializable {
-
 	private static final long serialVersionUID = 172247271876446110L;
-
+	
+	/**
+	 * Cells are hierarchical, with a single root cell that has no parent cell.
+	 */
 	private final ICell root;
 
+	/**
+	 * References to all cells in the model.
+	 */
 	private ObservableList<ICell> allCells;
+	/**
+	 * Temporary references to newly added cells, which are cleared on {@link Model#merge()}.
+	 */
 	private transient ObservableList<ICell> addedCells;
+	/**
+	 * Temporary references to newly removed cells, which are cleared on {@link Model#merge()}.
+	 */
 	private transient ObservableList<ICell> removedCells;
 
+	/**
+	 * References to all edges in the model.
+	 */
 	private ObservableList<IEdge> allEdges;
+	/**
+	 * Temporary references to newly added edges, which are cleared on {@link Model#merge()}.
+	 */
 	private transient ObservableList<IEdge> addedEdges;
+	/**
+	 * Temporary references to newly removed edges, which are cleared on {@link Model#merge()}.
+	 */
 	private transient ObservableList<IEdge> removedEdges;
 
+	/**
+	 * {@link Model} constructor. Creates the empty root cell and calls {@link #clear()}.
+	 */
 	public Model() {
 		root = new AbstractCell() {
 			@Override
@@ -30,10 +60,14 @@ public class Model implements Serializable {
 				return null;
 			}
 		};
+		
 		// clear model, create lists
 		clear();
 	}
-
+	
+	/**
+	 * Set all graphic node references to empty observable lists.
+	 */
 	public void clear() {
 		allCells = FXCollections.observableArrayList();
 		addedCells = FXCollections.observableArrayList();
@@ -44,6 +78,9 @@ public class Model implements Serializable {
 		removedEdges = FXCollections.observableArrayList();
 	}
 
+	/**
+	 * @deprecated Redundant and unused way to clear lists of newly added graphic nodes.
+	 */
 	public void clearAddedLists() {
 		addedCells.clear();
 		addedEdges.clear();
@@ -61,37 +98,67 @@ public class Model implements Serializable {
 		merge();
 	}
 
+	/**
+	 * @return {@link #addedCells}.
+	 */
 	public ObservableList<ICell> getAddedCells() {
 		return addedCells;
 	}
 
+	/**
+	 * @return {@link #removedCells}.
+	 */
 	public ObservableList<ICell> getRemovedCells() {
 		return removedCells;
 	}
 
+	/**
+	 * @return {@link #allCells}.
+	 */
 	public ObservableList<ICell> getAllCells() {
 		return allCells;
 	}
 
+	/**
+	 * @return {@link #addedEdges}.
+	 */
 	public ObservableList<IEdge> getAddedEdges() {
 		return addedEdges;
 	}
 
+	/**
+	 * @return {@link #removedEdges}.
+	 */
 	public ObservableList<IEdge> getRemovedEdges() {
 		return removedEdges;
 	}
-
+	
+	/**
+	 * @return {@link #allEdges}.
+	 */
 	public ObservableList<IEdge> getAllEdges() {
 		return allEdges;
 	}
 
-	public void addCell(ICell cell) {
+	/**
+	 * Add a cell to the model.
+	 * 
+	 * @param cell The cell to add.
+	 * @throws NullPointerException If {@code cell} is {@code null}.
+	 */
+	public void addCell(ICell cell) throws NullPointerException {
 		if(cell == null) {
 			throw new NullPointerException("Cannot add a null cell");
 		}
 		addedCells.add(cell);
 	}
 	
+	/**
+	 * Remove a cell from the model.
+	 * 
+	 * @param cell The cell to remove.
+	 * @throws NullPointerException If {@code cell} is {@code null}.
+	 */
 	public void removeCell(ICell cell) {
 		if(cell == null) {
 			throw new NullPointerException("Cannot remove a null cell");
@@ -99,18 +166,36 @@ public class Model implements Serializable {
 		removedCells.add(cell);
 	}
 
+	/**
+	 * Convenience method for {@link #addEdge(IEdge)}, adding an {@link Edge} instance.
+	 * 
+	 * @param sourceCell The edge source cell.
+	 * @param targetCell The edge target cell.
+	 */
 	public void addEdge(ICell sourceCell, ICell targetCell) {
 		final IEdge edge = new Edge(sourceCell, targetCell);
 		addEdge(edge);
 	}
-
-	public void addEdge(IEdge edge) {
+	
+	/**
+	 * Add an edge to the model.
+	 * 
+	 * @param edge The edge to add.
+	 * 
+	 * @throws NullPointerException If {@code edge} is {@code null}.
+	 */
+	public void addEdge(IEdge edge) throws NullPointerException {
 		if(edge == null) {
 			throw new NullPointerException("Cannot add a null edge");
 		}
 		addedEdges.add(edge);
 	}
 	
+	/**
+	 * Remove an edge from the model.
+	 * 
+	 * @param edge
+	 */
 	public void removeEdge(IEdge edge) {
 		if(edge == null) {
 			throw new NullPointerException("Cannot remove a null edge");
@@ -119,7 +204,7 @@ public class Model implements Serializable {
 	}
 
 	/**
-	 * Attach all cells which don't have a parent to graphParent
+	 * Attach all cells which don't have a parent to the {@link #root root cell}.
 	 *
 	 * @param cellList
 	 */
@@ -132,7 +217,7 @@ public class Model implements Serializable {
 	}
 
 	/**
-	 * Remove the graphParent reference if it is set
+	 * Remove cell children from the {@link #root root cell}.
 	 *
 	 * @param cellList
 	 */
@@ -142,10 +227,17 @@ public class Model implements Serializable {
 		}
 	}
 
+	/**
+	 * @return The {@link #root root} cell.
+	 */
 	public ICell getRoot() {
 		return root;
 	}
 
+	/**
+	 * Add newly added cells and edges to the model, remove newly removed cells and edges from the model, 
+	 * and clear the corresponding temporary reference lists.
+	 */
 	public void merge() {
 		// cells
 		allCells.addAll(addedCells);

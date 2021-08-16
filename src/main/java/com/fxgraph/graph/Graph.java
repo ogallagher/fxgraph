@@ -12,10 +12,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Encapsulates a 2d graph model (graph nodes: cells, edges) and its presentation onto a specialized javafx pane.
+ * 
+ * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+ * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+ *
+ */
 public class Graph {
-
+	/**
+	 * Managed collection of cells and edges to be shown in the graph. 
+	 */
 	private final Model model;
+	/**
+	 * The canvas on which graph node graphics are displayed (and interactive).
+	 */
 	private final PannableCanvas pannableCanvas;
+	/**
+	 * Maintains a mapping of graph nodes to their corresponding graphics.
+	 */
 	private final Map<IGraphNode, Region> graphics;
 	private final NodeGestures nodeGestures;
 	private final ViewportGestures viewportGestures;

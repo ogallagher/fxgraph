@@ -18,12 +18,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.abego.treelayout.Configuration.Location;
 
+/**
+ * Basic graph demo that provides a containing javafx window and some sample cells and edges
+ * for the graph.
+ * 
+ * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+ * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+ *
+ */
 public class BasicGraphDemo extends Application {
-
+	/**
+	 * Main gui app entrypoint.
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
 		Graph graph = new Graph();
-
+		
 		// Add content to graph
 		populateGraph(graph);
 
@@ -40,9 +50,17 @@ public class BasicGraphDemo extends Application {
 		stage.show();
 	}
 
+	/**
+	 * Create example cells and connecting edges for the graph.  
+	 * All cells are currently {@link RectangleCell} instances.
+	 * 
+	 * @param graph The graph to populate.
+	 */
 	private void populateGraph(Graph graph) {
 		final Model model = graph.getModel();
+		
 		graph.beginUpdate();
+		
 		final ICell cellA = new RectangleCell();
 		final ICell cellB = new RectangleCell();
 		final ICell cellC = new RectangleCell();
@@ -50,7 +68,7 @@ public class BasicGraphDemo extends Application {
 		final ICell cellE = new RectangleCell();
 		final ICell cellF = new RectangleCell();
 		final ICell cellG = new RectangleCell();
-
+		
 		model.addCell(cellA);
 		model.addCell(cellB);
 		model.addCell(cellC);
