@@ -86,6 +86,11 @@ public class Model implements Serializable {
 		addedEdges.clear();
 	}
 
+	/**
+	 * Assuming the caller already added and removed the proper graph nodes from the canvas,
+	 * this ensures all added cells have a parent, and all removed cells do not. Then,
+	 * {@link #merge()} is called.
+	 */
 	public void endUpdate() {
 		// every cell must have a parent, if it doesn't, then the graphParent is
 		// the parent

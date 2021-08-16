@@ -17,5 +17,4 @@ public interface Layout {
 	 * @param graph
 	 */
 	public void execute(Graph graph);
-
 }

@@ -11,7 +11,7 @@ import org.abego.treelayout.util.DefaultTreeForTreeLayout;
 
 /**
  * Places in a compact manner the hierarchical tree of nodes in a graph according to the 
- * [abego tree layout algorithm](http://treelayout.sourceforge.net).
+ * <a href="http://treelayout.sourceforge.net">abego tree layout algorithm</a>.
  * 
  * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
  * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)

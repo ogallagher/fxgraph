@@ -6,6 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Handles interaction with graph nodes, so far only including mouse dragging for translation.
+ * <br><br>
+ * Note that {@link com.fxgraph.cells.CellGestures} uses the same mouse button for enabling resize handles.
+ * 
+ * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+ * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+ *
+ */
 public class NodeGestures {
 	/**
 	 * While a drag is happening (the mouse button has not yet been released), the drag context

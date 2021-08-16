@@ -32,18 +32,39 @@ public class Graph {
 	 * Maintains a mapping of graph nodes to their corresponding graphics.
 	 */
 	private final Map<IGraphNode, Region> graphics;
+	/**
+	 * Node gestures (cell drag translation).
+	 */
 	private final NodeGestures nodeGestures;
+	/**
+	 * Viewport gestures (drag panning, scroll zoom).
+	 */
 	private final ViewportGestures viewportGestures;
+	/**
+	 * Whether to use {@link #nodeGestures}.
+	 */
 	private final BooleanProperty useNodeGestures;
+	/**
+	 * Whether to use {@link #viewportGestures}.
+	 */
 	private final BooleanProperty useViewportGestures;
 
+	/**
+	 * Convenience constructor for {@link #Graph(Model) Graph(new Model())}.
+	 */
 	public Graph() {
 		this(new Model());
 	}
 
+	/**
+	 * {@link Graph} constructor defines a model to contain cells and edges, default drag-translate node
+	 * gestures, and default drag-pan and scroll-zoom viewport gestures.
+	 * 
+	 * @param model The model which will contain references to included graph nodes (cells, edges).
+	 */
 	public Graph(Model model) {
 		this.model = model;
-
+		
 		nodeGestures = new NodeGestures(this);
 		useNodeGestures = new SimpleBooleanProperty(true);
 		useNodeGestures.addListener((obs, oldVal, newVal) -> {
@@ -95,18 +116,35 @@ public class Graph {
 		addCells(getModel().getAllCells());
 	}
 
+	/**
+	 * @return the graph canvas that acts as the graph's gui pane.
+	 */
 	public PannableCanvas getCanvas() {
 		return pannableCanvas;
 	}
 
+	/**
+	 * @return the model that contains the graph node references.
+	 */
 	public Model getModel() {
 		return model;
 	}
 
+	/**
+	 * Clears all widgets from the graph canvas.
+	 * 
+	 * TODO [ogallagher] this method seems misleading, as an update to the graph shouldn't necessarily mean all current
+	 * graph nodes be removed.
+	 * 
+	 */
 	public void beginUpdate() {
 		getCanvas().getChildren().clear();
 	}
 
+	/**
+	 * Add and remove the appropriate cells and edges as listed in the {@link Model model}. Then call
+	 * {@link Model#endUpdate()}.
+	 */
 	public void endUpdate() {
 		// add components to graph pane
 		addEdges(model.getAddedEdges());
@@ -120,6 +158,11 @@ public class Graph {
 		getModel().endUpdate();
 	}
 
+	/**
+	 * Add edge graphics to the graph canvas.
+	 * 
+	 * @param edges Edges to add.
+	 */
 	private void addEdges(List<IEdge> edges) {
 		edges.forEach(edge -> {
 			try {
@@ -132,6 +175,11 @@ public class Graph {
 		});
 	}
 
+	/**
+	 * Remove edge graphics from the graph canvas.
+	 * 
+	 * @param edges Edges to remove.
+	 */
 	private void removeEdges(List<IEdge> edges) {
 		edges.forEach(edge -> {
 			try {
@@ -144,6 +192,11 @@ public class Graph {
 		});
 	}
 
+	/**
+	 * Add cell graphics to the graph canvas.
+	 * 
+	 * @param cells Cells to add.
+	 */
 	private void addCells(List<ICell> cells) {
 		cells.forEach(cell -> {
 			try {
@@ -159,6 +212,11 @@ public class Graph {
 		});
 	}
 
+	/**
+	 * Remove cell graphics from the graph canvas.
+	 * 
+	 * @param cells Cells to remove.
+	 */
 	private void removeCells(List<ICell> cells) {
 		cells.forEach(cell -> {
 			try {
@@ -171,6 +229,12 @@ public class Graph {
 		});
 	}
 
+	/**
+	 * Get the corresponding graphic for the given node (cell, edge).
+	 * 
+	 * @param node The graph node.
+	 * @return The node's graphic.
+	 */
 	public Region getGraphic(IGraphNode node) {
 		try {
 			if (!graphics.containsKey(node)) {
@@ -183,30 +247,59 @@ public class Graph {
 		}
 	}
 
+	/**
+	 * Create the graphic that will represent the graph node in the canvas.
+	 * 
+	 * @apiNote This should only be called once for each node in a graph, as the method does not
+	 * recycle the same graphic object each time it's called.
+	 * 
+	 * @param node The graph node (cell, edge).
+	 * @return The graphic.
+	 */
 	public Region createGraphic(IGraphNode node) {
 		return node.getGraphic(this);
 	}
 
+	/**
+	 * @return The canvas viewport's scale/zoom value.
+	 */
 	public double getScale() {
 		return getCanvas().getScale();
 	}
 
+	/**
+	 * Use the given layout to calculate placement for all contained graph nodes.
+	 * 
+	 * @param layout
+	 */
 	public void layout(Layout layout) {
 		layout.execute(this);
 	}
 
+	/**
+	 * @return {code NodeGestures} for the graph.
+	 */
 	public NodeGestures getNodeGestures() {
 		return nodeGestures;
 	}
 
+	/**
+	 * @return Whether to use node gestures.
+	 */
 	public BooleanProperty getUseNodeGestures() {
 		return useNodeGestures;
 	}
 
+	/**
+	 * @return {code ViewportGestures} for the graph.
+	 */
 	public ViewportGestures getViewportGestures() {
 		return viewportGestures;
 	}
 
+	/**
+	 * @return Whether to use viewport gestures.
+	 */
 	public BooleanProperty getUseViewportGestures() {
 		return useViewportGestures;
 	}

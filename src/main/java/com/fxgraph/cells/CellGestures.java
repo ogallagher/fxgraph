@@ -24,8 +24,15 @@ import java.util.stream.Collectors;
  *
  */
 public class CellGestures {
+	/**
+	 * The radius of the cell drag handle (half of the width).
+	 */
 	static final double handleRadius = 6d;
 	
+	/**
+	 * Create a cell drag handle at the north edge, handling mouse events and creating the handle
+	 * widget to be displayed.
+	 */
 	static DragNodeSupplier NORTH = new DragNodeSupplier() {
 		@Override
 		public Node apply(Graph graph, Region region, Wrapper<MouseEvent> wrappedEvent) {
@@ -54,6 +61,10 @@ public class CellGestures {
 		}
 	};
 	
+	/**
+	 * Create a cell drag handle at the northeast corner, handling mouse events and creating the handle
+	 * widget to be displayed.
+	 */
 	static DragNodeSupplier NORTH_EAST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Graph graph, Region region, Wrapper<MouseEvent> wrappedEvent) {
@@ -82,6 +93,10 @@ public class CellGestures {
 		}
 	};
 	
+	/**
+	 * Create a cell drag handle at the east edge, handling mouse events and creating the handle
+	 * widget to be displayed.
+	 */
 	static DragNodeSupplier EAST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Graph graph, Region region, Wrapper<MouseEvent> wrappedEvent) {
@@ -111,6 +126,10 @@ public class CellGestures {
 		}
 	};
 	
+	/**
+	 * Create a cell drag handle at the southeast corner, handling mouse events and creating the handle
+	 * widget to be displayed.
+	 */
 	static DragNodeSupplier SOUTH_EAST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Graph graph, Region region, Wrapper<MouseEvent> wrappedEvent) {
@@ -140,6 +159,10 @@ public class CellGestures {
 		}
 	};
 	
+	/**
+	 * Create a cell drag handle at the south edge, handling mouse events and creating the handle
+	 * widget to be displayed.
+	 */
 	static DragNodeSupplier SOUTH = new DragNodeSupplier() {
 		@Override
 		public Node apply(Graph graph, Region region, Wrapper<MouseEvent> wrappedEvent) {
@@ -167,6 +190,10 @@ public class CellGestures {
 		}
 	};
 	
+	/**
+	 * Create a cell drag handle at the southwest corner, handling mouse events and creating the handle
+	 * widget to be displayed.
+	 */
 	static DragNodeSupplier SOUTH_WEST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Graph graph, Region region, Wrapper<MouseEvent> wrappedEvent) {
@@ -195,6 +222,10 @@ public class CellGestures {
 		}
 	};
 	
+	/**
+	 * Create a cell drag handle at the west edge, handling mouse events and creating the handle
+	 * widget to be displayed.
+	 */
 	static DragNodeSupplier WEST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Graph graph, Region region, Wrapper<MouseEvent> wrappedEvent) {
@@ -223,6 +254,10 @@ public class CellGestures {
 		}
 	};
 	
+	/**
+	 * Create a cell drag handle at the northwest corner, handling mouse events and creating the handle
+	 * widget to be displayed.
+	 */
 	static DragNodeSupplier NORTH_WEST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Graph graph, Region region, Wrapper<MouseEvent> wrappedEvent) {
@@ -250,13 +285,34 @@ public class CellGestures {
 		}
 	};
 	
+	/**
+	 * Convenience method for calling {@link #makeResizable(Graph, Region, DragNodeSupplier...)} with {@code DragNodeSupplier}s
+	 * for all corners and edges.
+	 * 
+	 * @param graph Graph containing the cell.
+	 * @param region Cell graphic.
+	 */
 	public static void makeResizable(Graph graph, Region region) {
 		makeResizable(graph, region, NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST);
 	}
 	
+	/**
+	 * Synchronizes cell drag handles with their associated cell, ensuring that the drag handles belong to the same
+	 * graph canvas as the their cell.
+	 * 
+	 * @param graph
+	 * @param region
+	 * @param nodeSuppliers
+	 */
 	public static void makeResizable(Graph graph, Region region, DragNodeSupplier... nodeSuppliers) {
 		final Wrapper<MouseEvent> wrappedEvent = new Wrapper<>();
-		final List<Node> dragNodes = Arrays.stream(nodeSuppliers).map(supplier -> supplier.apply(graph, region, wrappedEvent)).collect(Collectors.toList());
+		
+		// apply each drag node and obtain the list of their widgets
+		final List<Node> dragNodes = Arrays.stream(nodeSuppliers)
+			.map(supplier -> supplier.apply(graph, region, wrappedEvent))
+			.collect(Collectors.toList());
+		
+		// ensure that the drag nodes belong to the same parent as their cell
 		region.parentProperty().addListener((obs, oldParent, newParent) -> {
 			for(final Node c : dragNodes) {
 				final Pane currentParent = (Pane) c.getParent();
@@ -302,6 +358,15 @@ public class CellGestures {
 		}
 	}
 	
+	/**
+	 * Extracts common mouse event handling shared by many cell resize handles. This takes care of changing the cursor,
+	 * beginning a cell handle drag, and ending a drag.
+	 * 
+	 * @param graph Graph to which the cell belongs.
+	 * @param node The cell handle.
+	 * @param wrappedEvent The wrapped mouse event.
+	 * @param hoverCursor The cursor to use when hovering over this cell handle.
+	 */
 	private static void setUpDragging(Graph graph, Node node, Wrapper<MouseEvent> wrappedEvent, Cursor hoverCursor) {
 		node.setOnMouseEntered(event -> {
 			node.getParent().setCursor(hoverCursor);
@@ -331,19 +396,38 @@ public class CellGestures {
 			wrappedEvent.value = null;
 		});
 	}
-
+	
 	/**
-	 * TODO [ogallagher] document this class; I don't understand its purpose.
+	 * TODO [ogallagher] document this class; I don't understand its purpose. It seems to have to do with tracking
+	 * the drag start point, and whether the drag started or not.
 	 * 
 	 * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
 	 * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
 	 *
 	 */
 	static class Wrapper<T> {
+		/**
+		 * The {@link MouseEvent} that begins a cell handle drag.
+		 */
 		T value;
 	}
-
+	
+	/**
+	 * Any draggable cell handle must implement this interface. 
+	 * 
+	 * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+	 * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+	 *
+	 */
 	interface DragNodeSupplier {
+		/**
+		 * Defines how to apply a mouse event to a graph node cell.
+		 * 
+		 * @param graph The graph to which the cell belongs.
+		 * @param region The cell's graphic (gui representation).
+		 * @param wrappedEvent A wrapped {@link MouseEvent} instance.
+		 * @return
+		 */
 		Node apply(Graph graph, Region region, Wrapper<MouseEvent> wrappedEvent);
 	}
 
