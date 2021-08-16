@@ -22,8 +22,23 @@
 				<role>maintainer</role>
 			</roles>
 		</developer>
+		<developer>
+			<name>Col-E</name>
+			<url>https://coley.software/</url>
+			<roles>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>ogallagher</name>
+			<email>owengall@icloud.com</email>
+			<url>https://github.com/ogallagher</url>
+			<roles>
+				<role>user</role>
+			</roles>
+		</developer>
 	</developers>
-
+	
 	<description>FXGraph is java graph visualizer.</description>
 
 	<url>https://github.com/sirolf2009/fxgraph</url>
