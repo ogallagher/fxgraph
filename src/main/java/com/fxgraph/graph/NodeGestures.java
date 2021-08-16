@@ -101,22 +101,17 @@ public class NodeGestures {
 	}
 
 	/**
-	 * Handle the start point of a new drag, or disable node dragging if the viewport pan button
-	 * was pressed.
+	 * Handle the start point of a new drag.
+	 * <br><br>
+	 * Note that if the viewport drag button conflicts with the node drag button, 
+	 * only the node will be dragged.
 	 */
 	final EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
-			final Node node = (Node) event.getSource();
-
-			if (event.getButton() == graph.getViewportGestures().getPanButton()) {
-				// make the node transparent to mouse events if it is the pan button clicked.
-				// this allows the pan button to be used while over the node.
-				// we will restore its transparency when the mouse button is released.
-				lastTransparentNode = node;
-				setNodeMouseTransparency(node, true);
-			} 
-			else {
+			if (event.getButton() == dragButton) {
+				final Node node = (Node) event.getSource();
+				
 				final double scale = graph.getScale();
 
 				dragContext.x = node.getBoundsInParent().getMinX() * scale - event.getScreenX();
@@ -134,8 +129,8 @@ public class NodeGestures {
 		@Override
 		public void handle(MouseEvent event) {
 			final Node node = (Node) event.getSource();
-
-			if (event.getButton() == getDragButton()) {
+			
+			if (event.getButton() == dragButton) {
 				double offsetX = event.getScreenX() + dragContext.x;
 				double offsetY = event.getScreenY() + dragContext.y;
 

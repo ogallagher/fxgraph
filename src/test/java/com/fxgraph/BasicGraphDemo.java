@@ -36,15 +36,15 @@ public class BasicGraphDemo extends Application {
 		
 		// Add content to graph
 		populateGraph(graph);
-
+		
 		// Layout nodes
 		AbegoTreeLayout layout = new AbegoTreeLayout(200, 200, Location.Top);
 		graph.layout(layout);
-
+		
 		// Configure interaction buttons and behavior
-		graph.getViewportGestures().setPanButton(MouseButton.SECONDARY);
+		graph.getViewportGestures().setPanButton(MouseButton.PRIMARY);
 		graph.getNodeGestures().setDragButton(MouseButton.PRIMARY);
-
+		
 		// Display the graph
 		stage.setScene(new Scene(new BorderPane(graph.getCanvas())));
 		stage.show();
