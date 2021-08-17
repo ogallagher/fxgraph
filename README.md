@@ -28,7 +28,7 @@ You can get it from maven central
 	<artifactId>fxgraph</artifactId>
 	<version>0.0.3</version>
 </dependency>
-``` 
+```
 
 ## Usage
 You can look at the [test classes](src/test/java/com/fxgraph) for basic examples. The relevant code for the graph in the screenshot above is as follows
@@ -88,6 +88,10 @@ seqDiagram.addMessage(actorB, actorA, "noNewEmails");
 
 seqDiagram.layout();
 ```
+
+## Documentation
+
+Consult the javadoc (index at `docs/javadoc/index.html`) for full documentation of the source code.
 
 ## TODO
 
