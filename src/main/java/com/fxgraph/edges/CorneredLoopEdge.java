@@ -13,11 +13,31 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
+/**
+ * {@code AbstractEdge} implementation for representing an edge with two corners that connects a
+ * cell to itself.
+ * 
+ * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+ * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+ *
+ */
 public class CorneredLoopEdge extends AbstractEdge {
-
+	/**
+	 * How far from the cell to extend the edge outward.
+	 */
 	private final DoubleProperty separationProperty = new SimpleDoubleProperty(15);
+	/**
+	 * How wide to make the parallel/middle section of the edge before turning back toward the 
+	 * cell at the terminal end.
+	 */
 	private final DoubleProperty widthProperty = new SimpleDoubleProperty(0.5);
+	/**
+	 * Edge text.
+	 */
 	private final StringProperty textProperty;
+	/**
+	 * Which side of the cell the edge is on.
+	 */
 	private final Position pos;
 
 	public CorneredLoopEdge(ICell target, Position pos) {
@@ -25,53 +45,100 @@ public class CorneredLoopEdge extends AbstractEdge {
 		this.pos = pos;
 		textProperty = new SimpleStringProperty();
 	}
-
+	
+	/**
+	 * Replaces {@link AbstractEdge#linkCells()} with a no-op method to prevent a cell from referencing itself
+	 * recursively as a parent or child.
+	 */
 	@Override
 	protected void linkCells() {
 		// no-op
 	}
-
+	
 	@Override
 	public EdgeGraphic getGraphic(Graph graph) {
 		return new EdgeGraphic(graph, this, pos, textProperty, separationProperty, widthProperty);
 	}
-
+	
+	/**
+	 * @return Edge text property.
+	 */
 	public StringProperty textProperty() {
 		return textProperty;
 	}
-
+	
+	/**
+	 * @return Cornered loop edge separation property.
+	 * @see #separationProperty
+	 */
 	public DoubleProperty separationProperty() {
 		return separationProperty;
 	}
-
+	
+	/**
+	 * @return Cornered loop edge width property.
+	 * @see #widthProperty
+	 */
 	public DoubleProperty widthProperty() {
 		return widthProperty;
 	}
-
+	
+	/**
+	 * Defines the four sides of a cell bounding box that a cornered loop edge
+	 * can extend from, as well as grouping them into vertical
+	 * and horizontal positions.
+	 * 
+	 * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+	 * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+	 *
+	 */
 	public enum Position {
 		TOP, RIGHT, BOTTOM, LEFT;
-
+		
+		/**
+		 * @return Whether position is vertical (top/bottom).
+		 */
 		boolean isVertical() {
 			return this == LEFT || this == RIGHT;
 		}
-
+		
+		/**
+		 * @return Whether position is horizontal (left/right).
+		 */
 		boolean isHorizontal() {
 			return this == TOP || this == BOTTOM;
 		}
 	}
-
+	
+	/**
+	 * {@code AbstractEdgeGraphic} implementation for displaying a cornered loop edge in a graph. 
+	 * 
+	 * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+	 * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+	 *
+	 */
 	public static class EdgeGraphic extends AbstractEdgeGraphic {
-
 		private final DoubleBinding sourceX;
 		private final DoubleBinding sourceY;
 		private final DoubleBinding targetX;
 		private final DoubleBinding targetY;
 		private final DoubleBinding centerX;
 		private final DoubleBinding centerY;
+		/**
+		 * First outward line segment.
+		 */
 		private final Line lineA = new Line();
+		/**
+		 * Second parallel line segment.
+		 */
 		private final Line lineB = new Line();
+		/**
+		 * Third inward line segment. 
+		 * 
+		 * @deprecated A cornered loop edge is always directed, so an arrow is used for the final segment.
+		 */
 		private final Line lineC = new Line();
-
+		
 		public EdgeGraphic(Graph graph, CorneredLoopEdge edge, Position position, StringProperty textProperty,
 						   DoubleProperty separation, DoubleProperty width) {
 			DoubleBinding w = edge.getTarget().getWidth(graph).add(0.000001);
@@ -94,7 +161,8 @@ public class CorneredLoopEdge extends AbstractEdge {
 				}
 
 				centerY = sourceY.add(targetY).divide(2);
-			} else {
+			} 
+			else {
 				sourceX = x.subtract(w.divide(2.0).multiply(width));
 				targetX = x.add(w.divide(2.0).multiply(width));
 
@@ -129,7 +197,6 @@ public class CorneredLoopEdge extends AbstractEdge {
 			}
 			text.xProperty().bind(centerX.subtract(textWidth.divide(2)));
 
-
 			if(position.isVertical()) {
 				lineA.startXProperty().bind(sourceX);
 				lineA.startYProperty().bind(sourceY);
@@ -145,7 +212,8 @@ public class CorneredLoopEdge extends AbstractEdge {
 
 				setupArrow(centerX, targetY, targetX, targetY);
 				group.getChildren().add(arrow);
-			} else {
+			} 
+			else {
 				lineA.startXProperty().bind(sourceX);
 				lineA.startYProperty().bind(sourceY);
 				lineA.endXProperty().bind(sourceX);
@@ -161,7 +229,7 @@ public class CorneredLoopEdge extends AbstractEdge {
 				setupArrow(targetX, centerY, targetX, targetY);
 				group.getChildren().add(arrow);
 			}
-
+			
 			group.getChildren().add(text);
 			getChildren().add(group);
 		}
@@ -190,6 +258,10 @@ public class CorneredLoopEdge extends AbstractEdge {
 			return centerY;
 		}
 
+		/**
+		 * @deprecated Redundant.
+		 * @see AbstractEdgeGraphic#getGroup()
+		 */
 		public Group getGroup() {
 			return group;
 		}
@@ -201,11 +273,19 @@ public class CorneredLoopEdge extends AbstractEdge {
 		public Line getLineB() {
 			return lineB;
 		}
-
+		
+		/**
+		 * @return Third inward line segment
+		 * @deprecated See {@link #lineC}.
+		 */
 		public Line getLineC() {
 			return lineC;
 		}
-
+		
+		/**
+		 * @deprecated Redundant.
+		 * @see AbstractEdgeGraphic#getText()
+		 */
 		public Text getText() {
 			return text;
 		}

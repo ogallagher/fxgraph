@@ -115,14 +115,14 @@ public class Arrow extends Group {
     public final DoubleProperty startXProperty() {
         return line.startXProperty();
     }
-
+    
     /**
      * @param value Main line start y.
      */
     public final void setStartY(double value) {
         line.setStartY(value);
     }
-
+    
     /**
      * @return Main line start y.
      */

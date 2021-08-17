@@ -7,11 +7,25 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Scale;
 
+/**
+ * A resizable cell represented by a red triangle, of size 50.
+ * 
+ * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+ * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+ *
+ */
 public class TriangleCell extends AbstractCell {
-
+	/**
+	 * Empty default constructor.
+	 */
 	public TriangleCell() {
 	}
 
+	/**
+	 * Create the resizable isosceles red triangle graphic to represent this cell.
+	 * 
+	 * @see CellGestures#makeResizable(Graph, Region)
+	 */
 	@Override
 	public Region getGraphic(Graph graph) {
 		final double width = 50;
@@ -28,6 +42,7 @@ public class TriangleCell extends AbstractCell {
 		view.getTransforms().add(scale);
 		scale.xProperty().bind(pane.widthProperty().divide(50));
 		scale.yProperty().bind(pane.heightProperty().divide(50));
+		
 		CellGestures.makeResizable(graph, pane);
 
 		return pane;
