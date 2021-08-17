@@ -6,8 +6,18 @@ import com.fxgraph.graph.ICell;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A graph layout implementation that simply places each cell in a graph randomly within 
+ * a 500x500 square.
+ * 
+ * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+ * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+ *
+ */
 public class RandomLayout implements Layout {
-
+	/**
+	 * Random number generator instance.
+	 */
 	private final Random rnd = new Random();
 
 	@Override

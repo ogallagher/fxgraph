@@ -88,6 +88,13 @@ public class SequenceDiagram extends Graph {
 	}
 	
 	/**
+	 * Convenience method for {@link #layout(Layout) layout(null)}.
+	 */
+	public void layout() {
+		layout(null);
+	}
+	
+	/**
 	 * Define a layout for placement of actor cells and message edges.
 	 * 
 	 * @param layout Optional {@link Layout} instance, usually {@code null}, so that a default 

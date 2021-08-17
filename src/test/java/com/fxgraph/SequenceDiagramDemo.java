@@ -10,7 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
- * Demo of a sequence diagram that makes use of more specialized {@link ActorCell cells and {@link MessageEdge edges}.
+ * Demo of a sequence diagram that makes use of more specialized {@link ActorCell actor cells} 
+ * and {@link MessageEdge message edges}.
  * 
  * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
  * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
@@ -26,10 +27,10 @@ public class SequenceDiagramDemo extends Application {
 
 		// Add content to sequence diagram
 		populateGraph(diagram);
-
-		// Layout nodes (Use the no-args to do sequence diagram formatting)
+		
+		// Layout nodes
 		diagram.layout();
-
+		
 		// Configure interaction buttons and behavior
 		diagram.getViewportGestures().setPanButton(MouseButton.SECONDARY);
 
@@ -38,9 +39,14 @@ public class SequenceDiagramDemo extends Application {
 		stage.show();
 	}
 
+	/**
+	 * Add a set of actors and messages to the sequence diagram.
+	 * 
+	 * @param diagram The sequence diagram to add to.
+	 */
 	private void populateGraph(SequenceDiagram diagram) {
 		diagram.beginUpdate();
-
+		
 		final IActorCell cellA = new ActorCell("Planning", 60.0);
 		final IActorCell cellB = new ActorCell("Design", 360.0);
 		final IActorCell cellC = new ActorCell("Implementation", 360.0);
