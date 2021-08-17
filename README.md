@@ -4,6 +4,7 @@ FXGraph is javafx graph visualizer. It's a continuation of a post I found on sta
 You can find the original question here: https://stackoverflow.com/questions/30679025/graph-visualisation-like-yfiles-in-javafx
 
 ## Features
+
  - Draggable nodes
  - Resizable nodes
  - Zooming / Panning
@@ -14,10 +15,13 @@ You can find the original question here: https://stackoverflow.com/questions/306
  - Sequence Diagram
 
 ## Screenshot
-![Screenshot](screenshot.png)
+
+![Screenshot](./docs/img/screenshot.png)
 
 ## Download
+
 You can get it from maven central
+
 ```xml
 <dependency>
 	<groupId>com.sirolf2009</groupId>
@@ -28,6 +32,7 @@ You can get it from maven central
 
 ## Usage
 You can look at the [test classes](src/test/java/com/fxgraph) for basic examples. The relevant code for the graph in the screenshot above is as follows
+
 ```java
 Graph graph = new Graph();
 final Model model = graph.getModel();
@@ -85,6 +90,8 @@ seqDiagram.layout();
 ```
 
 ## TODO
+
 If you have a feature request, just file an issue.
+
  - unit tests
  - better layouts

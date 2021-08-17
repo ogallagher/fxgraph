@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" author="true" classpath="/Users/owengallagher/.m2/repository/org/abego/treelayout/org.abego.treelayout.core/1.0.3/org.abego.treelayout.core-1.0.3.jar:/Users/owengallagher/.m2/repository/junit/junit/4.13.1/junit-4.13.1.jar:target/test-classes:/Users/owengallagher/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" destdir="docs/javadoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.fxgraph.graph,com.fxgraph.layout,com.fxgraph.cells,com.fxgraph.edges" source="1.8" sourcefiles="src/test/java/com/fxgraph/SequenceDiagramDemo.java,src/test/java/com/fxgraph/BasicGraphDemo.java" sourcepath="src/test/java:src/main/resources:src/main/java" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

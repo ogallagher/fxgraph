@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 /**
  * Demo of a sequence diagram that makes use of more specialized {@link ActorCell actor cells} 
- * and {@link MessageEdge message edges}.
+ * and {@link com.fxgraph.edges.MessageEdge message edges}.
  * 
  * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
  * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
