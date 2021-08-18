@@ -1,5 +1,7 @@
 package com.fxgraph.cells;
 
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,9 +13,19 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -32,9 +44,29 @@ import javafx.scene.shape.Shape;
  */
 public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 	/**
+	 * Default number formatting for a point label.
+	 */
+	private static NumberFormat defaultNumberFormat;
+	
+	/**
 	 * A unique style class for targeting cartesian point graphics for css in the graph.
 	 */
 	public static final String UNIQUE_STYLE_CLASS = "cartesian-point";
+	
+	/**
+	 * Default bullet radius.
+	 */
+	public static final double RADIUS_DEFAULT = 5;
+	/**
+	 * Default bullet type.
+	 * 
+	 * @see BulletType#DEFAULT
+	 */
+	public static final BulletType BULLET_TYPE_DEFAULT = BulletType.DEFAULT;
+	/**
+	 * Default fill color.
+	 */
+	public static final Color FILL_COLOR_DEFAULT = Color.BLACK;
 	
 	/**
 	 * The <i>parent</i> point, of lesser x value.
@@ -70,11 +102,42 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 	private Property<Color> fillColor;
 	
 	/**
+	 * The point's text that gets displayed as a label and contains coordinate information.
+	 */
+	private StringProperty text;
+	
+	static {
+		defaultNumberFormat = NumberFormat.getNumberInstance();
+		defaultNumberFormat.setMaximumFractionDigits(2);
+		defaultNumberFormat.setRoundingMode(RoundingMode.HALF_UP);
+	}
+	
+	/**
+	 * Convenience constructor for {@link #CartesianPoint(double, double)}.
+	 * 
+	 * @param datapoint The point coordinates.
+	 */
+	public CartesianPoint(Point2D datapoint) {
+		this(datapoint.getX(), datapoint.getY());
+	}
+	
+	/**
+	 * Convenience constructor for {@link #CartesianPoint(double, double, double, BulletType, Color)} with default
+	 * values for other parameters.
+	 * 
+	 * @param x X coordinate.
+	 * @param y Y coordinate.
+	 */
+	public CartesianPoint(double x, double y) {
+		this(x,y,RADIUS_DEFAULT,BULLET_TYPE_DEFAULT,FILL_COLOR_DEFAULT);
+	}
+	
+	/**
 	 * {@link CartesianPoint} constructor.
 	 * 
-	 * @param x
-	 * @param y
-	 * @param r
+	 * @param x X coordinate.
+	 * @param y Y coordinate.
+	 * @param r Bullet radius.
 	 * @param bulletType
 	 * @param fillColor
 	 */
@@ -89,23 +152,61 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 		this.bulletType = bulletType;
 		this.radius = new SimpleDoubleProperty(r);
 		this.fillColor = new SimpleObjectProperty<Color>(fillColor);
+		
+		// bind text to point coordinates
+		text = new SimpleStringProperty();
+		final CartesianPoint self = this;
+		ChangeListener<Number> updateText = new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> v, Number ov, Number nv) {
+				text.set(
+					"(" + 
+					defaultNumberFormat.format(self.x.get()) + 
+					"," + 
+					defaultNumberFormat.format(self.y.get()) +
+					")"
+				);
+			}
+		};
+		updateText.changed(null, null, null);
+		this.x.addListener(updateText);
+		this.y.addListener(updateText);
 	}
 	
 	/**
-	 * @return A newly generated graphic to represent this point in the graph.
+	 * @return A newly generated graphic to represent this point in the graph, including both the bullet
+	 * and the label, translated so that the bullet is centered (layout position not affected).
 	 */
 	@Override
 	public Region getGraphic(Graph graph) {
-		final Region bullet = new Region();
+		final VBox graphic = new VBox();
+		graphic.setPadding(Insets.EMPTY);
+		graphic.setAlignment(Pos.CENTER);
+		graphic.setFillWidth(false);
+		
+		Label label = new Label();
+		Region bullet = new Region();
+		
+		// bind graphic location
+		graphic.layoutXProperty().bindBidirectional(x);
+		graphic.layoutYProperty().bindBidirectional(y);
+		
+		// translate to center bullet over point, assuming bullet is last child
+		graphic.setTranslateX(0);
+		graphic.translateYProperty().bind(
+			radius.subtract(graphic.heightProperty().divide(2))
+		);
+		
+		label.textProperty().bind(text);
+		
+		// add label to graphic
+		graphic.getChildren().add(label);
 		
 		DoubleBinding dims = radius.multiply(2);
 		bullet.prefWidthProperty().bind(dims);
 		bullet.prefHeightProperty().bind(dims);
 		
-		// bind graphic location and fill color
-		bullet.layoutXProperty().bindBidirectional(x);
-		bullet.layoutYProperty().bindBidirectional(y);
-		
+		// bind bullet fill color
 		bullet.setBackground(new Background(new BackgroundFill(fillColor.getValue(), null, null)));
 		
 		fillColor.addListener((color, oldColor, newColor) -> {
@@ -127,10 +228,15 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 			bullet.setShape(bulletShape);
 		}
 		
-		// add unique style class
-		bullet.getStyleClass().add(UNIQUE_STYLE_CLASS);
+		// add bullet to graphic
+		graphic.getChildren().add(bullet);
 		
-		return bullet;
+		// add unique style class
+		graphic.getStyleClass().add(UNIQUE_STYLE_CLASS);
+		
+		// center 
+		
+		return graphic;
 	}
 	
 	/**
@@ -369,5 +475,10 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 		 * Represent a point with a circle. 
 		 */
 		CIRCLE;
+		
+		/**
+		 * Default bullet type.
+		 */
+		private static final BulletType DEFAULT = CIRCLE;
 	}
 }

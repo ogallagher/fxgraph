@@ -1,9 +1,11 @@
 package com.fxgraph.graph;
 
+import javafx.scene.paint.Color;
 import java.util.Collection;
 import java.util.Date;
 
 import com.fxgraph.cells.CartesianPoint;
+import com.fxgraph.cells.CartesianPoint.BulletType;
 import com.fxgraph.edges.SimpleEdge;
 import com.fxgraph.layout.FitToContentLayout;
 import com.fxgraph.layout.Layout;
@@ -58,20 +60,23 @@ public class CartesianGraph extends Graph {
 	}
 	
 	/**
-	 * Add a new dataset to the graph.
+	 * Add a new dataset to the graph with given styling.
 	 * 
 	 * @param dataset The data points to add.
 	 * @param name The identifying name for the dataset. If {@code null}, a name will be generated.
+	 * @param pointRadius Point bullet radius.
+	 * @param pointBullet Point bullet type.
+	 * @param pointFill Point fill color.
 	 * 
 	 * @return The name of the dataset.
 	 */
-	public String addDataset(Collection<Point2D> dataset, String name) {
+	public String addDataset(Collection<Point2D> dataset, String name, double pointRadius, BulletType pointBullet, Color pointFill) {
 		if (name == null) {
 			name = generateDatasetName();
 		}
 		
 		// add data as points and edges to model
-		cartesianModel.addPlot(name, dataset);
+		cartesianModel.addPlot(name, dataset, pointRadius, pointBullet, pointFill);
 		
 		// commit canvas and model changes
 		endUpdate();
@@ -80,16 +85,32 @@ public class CartesianGraph extends Graph {
 	}
 	
 	/**
-	 * Add a new point to the graph.
+	 * Convenience method for {@link #addDataset(Collection, String, double, BulletType, Color)} with default styling.
+	 * 
+	 * @param dataset Data points to add.
+	 * @param name Name of the dataset.
+	 * 
+	 * @return Name of the dataset.
+	 */
+	public String addDataset(Collection<Point2D> dataset, String name) {
+		return addDataset(dataset, name, CartesianPoint.RADIUS_DEFAULT, CartesianPoint.BULLET_TYPE_DEFAULT, CartesianPoint.FILL_COLOR_DEFAULT);
+	}
+	
+	/**
+	 * Add a new point to the graph with given styling.
 	 * 
 	 * @param point The point to add.
 	 * 
 	 * @param plotName The plot to add this point to. If {@code null}, the default plot will be used, or a new plot with
 	 * a generated name if there are no plots available.
 	 * 
+	 * @param pointRadius Point bullet radius.
+	 * @param pointBullet Point bullet type.
+	 * @param pointFill Point fill color.
+	 * 
 	 * @return The {@link CartesianPoint} instance that was added.
 	 */
-	public CartesianPoint addPoint(Point2D point, String plotName) {
+	public CartesianPoint addPoint(Point2D point, String plotName, double pointRadius, BulletType pointBullet, Color pointFill) {
 		if (plotName == null) {
 			// get default plot name
 			plotName = cartesianModel.getPlotDefault();
@@ -100,12 +121,24 @@ public class CartesianGraph extends Graph {
 			}
 		}
 		
-		CartesianPoint cpoint = cartesianModel.addPoint(plotName, point);
+		CartesianPoint cpoint = cartesianModel.addPoint(plotName, point, pointRadius, pointBullet, pointFill);
 		
 		// commit canvas and model changes
 		endUpdate();
 		
 		return cpoint;
+	}
+	
+	/**
+	 * Convenience method for {@link #addPoint(Point2D, String, double, BulletType, Color)} with default styling.
+	 * 
+	 * @param point Point to add.
+	 * @param plotName Plot to add to.
+	 * 
+	 * @return The {@code CartesianPoint} instance that was added.
+	 */
+	public CartesianPoint addPoint(Point2D point, String plotName) {
+		return addPoint(point, plotName, CartesianPoint.RADIUS_DEFAULT, CartesianPoint.BULLET_TYPE_DEFAULT, CartesianPoint.FILL_COLOR_DEFAULT);
 	}
 	
 	/**

@@ -12,6 +12,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -55,7 +56,7 @@ public class CartesianGraphDemo extends Application {
 		
 		// 1. add a full named dataset, in scrambled order
 		List<Point2D> dataset = new LinkedList<Point2D>();
-		for (double t=0; t<1; t+=0.05) {
+		for (double t=0; t<1.0; t+=0.05) {
 			dataset.add(new Point2D(t * domain, Math.sin(t * numPi) * halfRange + halfRange));
 		}
 		
@@ -69,12 +70,20 @@ public class CartesianGraphDemo extends Application {
 		
 		// add to graph
 		System.out.println("adding dataset 1 with " + dataset.size() + " points to graph");
-		graph.addDataset(dataset, "red wave");
+		graph.addDataset(dataset, "red wave", 5, CartesianPoint.BulletType.CIRCLE, Color.RED);
 		
 		// 2. add a dataset using individual points
 		List<CartesianPoint> cpoints = new LinkedList<>();
-		for (double t=0; t<1; t+=0.04) {
-			cpoints.add(graph.addPoint(new Point2D(t * domain, Math.cos(t * numPi) * halfRange + halfRange), "purple wave"));
+		for (double t=0; t<1.0; t+=0.04) {
+			cpoints.add(
+				graph.addPoint(
+					new Point2D(t * domain, Math.cos(t * numPi) * halfRange + halfRange), 
+					"purple wave",
+					5,
+					CartesianPoint.BulletType.CIRCLE,
+					Color.BLUEVIOLET
+				)
+			);
 		}
 		
 		for (CartesianPoint cpoint : cpoints) {

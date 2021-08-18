@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.fxgraph.cells.CartesianPoint;
+import com.fxgraph.cells.CartesianPoint.BulletType;
 import com.fxgraph.edges.Edge;
 import com.fxgraph.edges.SimpleEdge;
 
@@ -79,13 +80,25 @@ public class MultiplotModel extends Model {
 	}
 	
 	/**
-	 * Convert a dataset of raw points to {@link CartesianPoint} plots and add to this graph. If there is
+	 * Convenience method for {@link #addPlot(String, Collection, double, BulletType, Color)} with default point styling.
+	 * @param name
+	 * @param dataset
+	 */
+	public void addPlot(String name, Collection<Point2D> dataset) {
+		addPlot(name, dataset, CartesianPoint.RADIUS_DEFAULT, CartesianPoint.BULLET_TYPE_DEFAULT, CartesianPoint.FILL_COLOR_DEFAULT);
+	}
+	
+	/**
+	 * Convert a dataset of raw points to {@link CartesianPoint} plots with given styling and add to this graph. If there is
 	 * already a plot of the given name, the previous plot is replaced with the new one.
 	 * 
 	 * @param name Plot name.
 	 * @param dataset Plot points.
+	 * @param pointRadius Radius for each point bullet.
+	 * @param pointBullet Point bullet type.
+	 * @param pointFill Point bullet fill color.
 	 */
-	public void addPlot(String name, Collection<Point2D> dataset) {
+	public void addPlot(String name, Collection<Point2D> dataset, double pointRadius, BulletType pointBullet, Color pointFill) {
 		if (plotDefault == null) {
 			plotDefault = name;
 		}
@@ -96,12 +109,7 @@ public class MultiplotModel extends Model {
 		
 		for (Point2D point : dataset) {
 			// create new point
-			CartesianPoint current = new CartesianPoint(
-				point.getX(), point.getY(),
-				5, 
-				CartesianPoint.BulletType.CIRCLE, 
-				Color.RED
-			);
+			CartesianPoint current = new CartesianPoint(point.getX(), point.getY(), pointRadius, pointBullet, pointFill);
 			
 			// connect adjacent points
 			if (previous != null) {
@@ -133,7 +141,7 @@ public class MultiplotModel extends Model {
 	// TODO MultiplotModel.removePlot
 	
 	/**
-	 * Add a point to the given plot. If the plot name doesn't yet exist, create a new plot.<br><br>
+	 * Add a point to the given plot with styling. If the plot name doesn't yet exist, create a new plot.<br><br>
 	 * 
 	 * Edges to connect new points in the plot are not created, and must be added explicitly.
 	 * 
@@ -144,14 +152,11 @@ public class MultiplotModel extends Model {
 	 * 
 	 * @throws IllegalArgumentException If there is already a point in the given plot with the same x value.
 	 */
-	public CartesianPoint addPoint(String plotName, Point2D point) throws IllegalArgumentException {
+	public CartesianPoint addPoint(
+			String plotName, Point2D point, double pointRadius, BulletType pointBullet, Color pointFill) 
+			throws IllegalArgumentException {
 		// create graph point
-		CartesianPoint cpoint = new CartesianPoint(
-			point.getX(), point.getY(),
-			5, 
-			CartesianPoint.BulletType.CIRCLE, 
-			Color.BLUEVIOLET
-		);
+		CartesianPoint cpoint = new CartesianPoint(point.getX(), point.getY(), pointRadius, pointBullet, pointFill);
 		
 		// find plot
 		List<CartesianPoint> plot = plots.get(plotName);
@@ -199,6 +204,18 @@ public class MultiplotModel extends Model {
 		super.addCell(cpoint);
 		
 		return cpoint;
+	}
+	
+	/**
+	 * Convenience method for {@link #addPoint(String, Point2D, double, BulletType, Color)} with default styling.
+	 * 
+	 * @param plotName Name of destination plot.
+	 * @param point Point to add.
+	 * 
+	 * @return Added {@code CartesianPoint} instance.
+	 */
+	CartesianPoint addPoint(String plotName, Point2D point) {
+		return addPoint(plotName, point, CartesianPoint.RADIUS_DEFAULT, CartesianPoint.BULLET_TYPE_DEFAULT, CartesianPoint.FILL_COLOR_DEFAULT);
 	}
 	
 	/**
