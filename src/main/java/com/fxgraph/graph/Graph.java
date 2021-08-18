@@ -58,7 +58,8 @@ public class Graph {
 
 	/**
 	 * {@link Graph} constructor defines a model to contain cells and edges, default drag-translate node
-	 * gestures, and default drag-pan and scroll-zoom viewport gestures.
+	 * gestures, and default drag-pan and scroll-zoom viewport gestures. The node and viewport gestures
+	 * will can enabled and disabled by updating {@link #useNodeGestures} and {@link #useViewportGestures}.
 	 * 
 	 * @param model The model which will contain references to included graph nodes (cells, edges).
 	 */
@@ -95,6 +96,7 @@ public class Graph {
 				parent.removeEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
 			}
 		});
+		
 		pannableCanvas.parentProperty().addListener((obs, oldVal, newVal) -> {
 			if (oldVal != null) {
 				oldVal.removeEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
@@ -102,6 +104,7 @@ public class Graph {
 				oldVal.removeEventHandler(MouseEvent.MOUSE_RELEASED, viewportGestures.getOnMouseReleasedEventHandler());
 				oldVal.removeEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
 			}
+			// TODO [ogallagher] viewport gestures should only be enabled if newVal != null && useViewportGestures
 			if (newVal != null) {
 				newVal.addEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
 				newVal.addEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
@@ -142,8 +145,8 @@ public class Graph {
 	}
 
 	/**
-	 * Add and remove the appropriate cells and edges as listed in the {@link Model model}. Then call
-	 * {@link Model#endUpdate()}.
+	 * Add and remove the appropriate cells and edges as listed in the {@link Model model} to the graph
+	 * canvas. Then call {@link Model#endUpdate()}.
 	 */
 	public void endUpdate() {
 		// add components to graph pane
@@ -157,7 +160,7 @@ public class Graph {
 		// clean up the model
 		getModel().endUpdate();
 	}
-
+	
 	/**
 	 * Add edge graphics to the graph canvas.
 	 * 
@@ -193,7 +196,7 @@ public class Graph {
 	}
 
 	/**
-	 * Add cell graphics to the graph canvas.
+	 * Add cell graphics to the graph canvas and enable node gestures.
 	 * 
 	 * @param cells Cells to add.
 	 */
@@ -241,7 +244,8 @@ public class Graph {
 				graphics.put(node, createGraphic(node));
 			}
 			return graphics.get(node);
-		} catch (final Exception e) {
+		} 
+		catch (final Exception e) {
 			e.printStackTrace();
 			throw e;
 		}

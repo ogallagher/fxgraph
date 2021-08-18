@@ -28,21 +28,23 @@ public abstract class AbstractEdge implements IEdge {
 	private final boolean isDirected;
 
 	/**
-	 * {@link AbstractEdge} constructor.
+	 * {@link AbstractEdge} constructor. Creation of this edge also ultimately calls {@link #linkCells()}.
 	 * 
 	 * @param source Source cell.
 	 * @param target Target cell.
 	 * @param isDirected Whether the edge is directed.
+	 * 
+	 * @throws NullPointerException if {@code source} or {@code target} is {@code null}.
 	 */
 	public AbstractEdge(ICell source, ICell target, boolean isDirected) {
 		this.source = source;
 		this.target = target;
 		this.isDirected = isDirected;
 
-		if(source == null) {
+		if (source == null) {
 			throw new NullPointerException("Source cannot be null");
 		}
-		if(target == null) {
+		if (target == null) {
 			throw new NullPointerException("Target cannot be null");
 		}
 

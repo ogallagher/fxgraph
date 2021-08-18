@@ -19,14 +19,18 @@ public interface IGraphNode {
 	 */
 	public Region getGraphic(Graph graph);
 	/**
-	 * Handler for this node being added to a graph.
+	 * Handler for this node being added to a graph.<br><br>
+	 * 
+	 * Calling of this method is delegated to {@code Graph.addCells}.
 	 * 
 	 * @param graph The graph to which the graph node will be added.
 	 * @param region The fx node used to display the graph node.
 	 */
 	default void onAddedToGraph(Graph graph, Region region) {}
 	/**
-	 * Handler for when this node is removed from a graph.
+	 * Handler for when this node is removed from a graph.<br><br>
+	 * 
+	 * Calling of this method is delegated to {@code Graph.removeCells}.
 	 * 
 	 * @param graph The graph from which the graph node will be removed.
 	 * @param region The fx node used to display the graph node.

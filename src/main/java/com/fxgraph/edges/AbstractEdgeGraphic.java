@@ -15,7 +15,7 @@ import java.util.TreeSet;
 
 /**
  * An abstract edge graphic superclass with a group for basic edge graphics, a text label, and an arrow
- * for showing direction.
+ * for showing a directed line.
  * <br><br>
  * Includes methods for calculating the terminal point for an edge given the target graphic and a
  * fallback target point.

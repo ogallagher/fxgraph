@@ -20,7 +20,8 @@ public class Model implements Serializable {
 	private static final long serialVersionUID = 172247271876446110L;
 	
 	/**
-	 * Cells are hierarchical, with a single root cell that has no parent cell.
+	 * Cells are hierarchical, with a single root cell that has no parent cell. By default,
+	 * a model root is an invisible {@code AbstractCell} with no graphic.
 	 */
 	private final ICell root;
 
@@ -66,7 +67,7 @@ public class Model implements Serializable {
 	}
 	
 	/**
-	 * Set all graphic node references to empty observable lists.
+	 * Set all graphic node (cells, edges) references to empty observable lists.
 	 */
 	public void clear() {
 		allCells = FXCollections.observableArrayList();
@@ -90,16 +91,19 @@ public class Model implements Serializable {
 	 * Assuming the caller already added and removed the proper graph nodes from the canvas,
 	 * this ensures all added cells have a parent, and all removed cells do not. Then,
 	 * {@link #merge()} is called.
+	 * 
+	 * @see #attachOrphansToGraphParent(List)
+	 * @see #disconnectFromGraphParent(List)
 	 */
 	public void endUpdate() {
 		// every cell must have a parent, if it doesn't, then the graphParent is
 		// the parent
 		attachOrphansToGraphParent(getAddedCells());
-
+		
 		// remove reference to graphParent
 		disconnectFromGraphParent(getRemovedCells());
-
-		// merge added & removed cells with all cells
+		
+		// merge added & removed nodes with all nodes
 		merge();
 	}
 

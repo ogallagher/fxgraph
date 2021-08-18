@@ -21,7 +21,8 @@ public class RectangleCell extends AbstractCell {
 	}
 	
 	/**
-	 * Create the resizable blue rectangle graphic to represent this cell.
+	 * Create the resizable blue rectangle graphic to represent this cell, and enable
+	 * resizing handles.
 	 * 
 	 * @see CellGestures#makeResizable(Graph, Region)
 	 */
