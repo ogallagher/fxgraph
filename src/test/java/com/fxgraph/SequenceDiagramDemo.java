@@ -32,8 +32,13 @@ public class SequenceDiagramDemo extends Application {
 		diagram.layout();
 		
 		// Configure interaction buttons and behavior
+		
+		// ensure the useNodeGestures change handlers fire
+		diagram.getUseNodeGestures().set(false);
+		diagram.getUseNodeGestures().set(true);
+		
 		diagram.getViewportGestures().setPanButton(MouseButton.SECONDARY);
-
+		
 		// Display the graph
 		stage.setScene(new Scene(new BorderPane(diagram.getCanvas())));
 		stage.show();

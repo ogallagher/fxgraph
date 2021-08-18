@@ -6,7 +6,10 @@ import com.fxgraph.graph.SequenceDiagram.IMessageEdge;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
@@ -53,6 +56,25 @@ public class MessageEdge extends AbstractEdge implements IMessageEdge {
 	public Region getGraphic(Graph graph) {
 		return new EdgeGraphic(graph, this);
 	}
+	
+	/**
+	 * TODO Respond to a mouse entering this edge's associated graphic. This will not work properly until
+	 * {@code MessageEdge.EdgeGraphic} is fixed to only be as large as it needs to be.
+	 * 
+	 * @see <a href="https://github.com/ogallagher/fxgraph/issues/13#issuecomment-901334463">ogallagher/fxgraph #13</a>
+	 */
+	@Override
+	public void onHoverBegin(Graph graph, Region graphic) {
+		// System.out.println(this.name + " hover begin");
+	}
+	
+	/**
+	 * TODO Respond to a mouse leaving this edge's associated graphic.
+	 */
+	@Override
+	public void onHoverEnd(Graph graph, Region graphic) {
+		// System.out.println(this.name + " hover end");
+	}
 
 	/**
 	 * An {@code AbstractEdgeGraphic} implementation specialized for a message edge, having a label for the
@@ -81,7 +103,7 @@ public class MessageEdge extends AbstractEdge implements IMessageEdge {
 			// arrow endpoint bindings
 			arrow.startXProperty().bind(sourceX);
 			arrow.startYProperty().bind(sourceY);
-
+			
 			arrow.endXProperty().bind(targetX);
 			arrow.endYProperty().bind(targetY);
 			
@@ -110,6 +132,9 @@ public class MessageEdge extends AbstractEdge implements IMessageEdge {
 			
 			// add style class to edge graphic
 			getStyleClass().add("message-edge");
+			
+			// see https://github.com/ogallagher/fxgraph/issues/13#issuecomment-901334463
+			// setBackground(new Background(new BackgroundFill(new Color(0,0,0,0.1), null, null)));
 		}
 	}
 }
