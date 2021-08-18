@@ -44,6 +44,13 @@ public class SequenceDiagram extends Graph {
 	private List<IMessageEdge> messages = new ArrayList<>();
 	
 	/**
+	 * Default constructor calls {@link Graph#Graph()}.
+	 */
+	public SequenceDiagram() {
+		super();
+	}
+	
+	/**
 	 * Convenience method for {@link #addActor(IActorCell)}, defining an actor name and a life-line length.
 	 * 
 	 * @param actor Actor name
@@ -262,6 +269,22 @@ public class SequenceDiagram extends Graph {
 			final Region graphic = graph.getGraphic(this);
 			final Label label = (Label) graphic.getChildrenUnmodifiable().get(0);
 			return graphic.layoutYProperty().add(label.heightProperty().divide(2));
+		}
+		
+		/**
+		 * Respond to a mouse entering this edge's associated graphic.
+		 */
+		@Override
+		public void onHoverBegin(Graph graph, Region graphic) {
+			graphic.setStyle("-fx-background-color: #00000011;");
+		}
+		
+		/**
+		 * Respond to a mouse leaving this edge's associated graphic.
+		 */
+		@Override
+		public void onHoverEnd(Graph graph, Region graphic) {
+			graphic.setStyle("-fx-background-color: transparent;");
 		}
 		
 		public String getName() {

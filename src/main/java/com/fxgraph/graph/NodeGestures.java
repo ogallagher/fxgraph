@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 
 /**
  * Handles interaction with graph nodes, so far only including mouse dragging for translation.
@@ -12,7 +13,7 @@ import javafx.scene.input.MouseEvent;
  * Note that {@link com.fxgraph.cells.CellGestures} uses the same mouse button for enabling resize handles.
  * 
  * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
- * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
+ * @author <a href="https://github.com/ogallagher">ogallagher</a>
  *
  */
 public class NodeGestures {
@@ -64,7 +65,7 @@ public class NodeGestures {
 	}
 
 	/**
-	 * Enable drag translation on an fx widget (usually a graph node).
+	 * Enable drag translation on an fx widget (usually a graph node graphic).
 	 * 
 	 * @param node The node to make draggable.
 	 */
@@ -74,7 +75,7 @@ public class NodeGestures {
 	}
 
 	/**
-	 * Disable drag translation  on an fx widget (usually a graph node).
+	 * Disable drag translation on an fx widget (usually a graph node graphic).
 	 * 
 	 * @param node The node to make undraggable.
 	 */
@@ -82,7 +83,31 @@ public class NodeGestures {
 		node.setOnMousePressed(null);
 		node.setOnMouseDragged(null);
 	}
-
+	
+	/**
+	 * Enable hover interaction on a graph node graphic.
+	 * 
+	 * @param graphic The graphic to make hoverable.
+	 * 
+	 * @apiNote {@code graphic} must be a {@code Region} because the corresponding mouse event handler assumes the
+	 * event source is a {@code Region}.
+	 */
+	public void makeHoverable(final Region graphic) {
+		graphic.setOnMouseEntered(onMouseEnteredHandler);
+	}
+	
+	/**
+	 * Disable hover interaction on a graph node graphic.
+	 * 
+	 * @param graphic The graphic to make unhoverable.
+	 * 
+	 * @apiNote {@code graphic} must be a {@code Region} because the corresponding mouse event handler assumes the
+	 * event source is a {@code Region}.
+	 */
+	public void makeUnhoverable(final Region graphic) {
+		graphic.setOnMouseExited(onMouseExitedHandler);
+	}
+	
 	/**
 	 * Convenience method for 
 	 * {@link #setNodeMouseTransparency(Node, boolean) setNodeMouseTransparency(lastTransparentNode, false)}.
@@ -154,6 +179,50 @@ public class NodeGestures {
 				// only consume if target button.
 				// allows for "pass-through" of events to parent when not the target button.
 				event.consume();
+			}
+		}
+	};
+	
+	/**
+	 * Handle the start of a hover, by passing execution to the associated graph node (edge, cell) and consuming
+	 * the mouse event.
+	 */
+	final protected EventHandler<MouseEvent> onMouseEnteredHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+			Region graphic = (Region) event.getSource();
+			IGraphNode graphNode = graph.getGraphNode(graphic);
+			
+			if (graphNode != null) {
+				// pass execution to graph node
+				graphNode.onHoverBegin(graph, graphic);
+				
+				event.consume();
+			}
+			else {
+				throw new IllegalArgumentException("graphic " + event.getSource() + " does not belong to a graph node");
+			}
+		}
+	};
+	
+	/**
+	 * Handle the end of a hover, by passing execution to the associated graph node (edge, cell) and consuming
+	 * the mouse event.
+	 */
+	final protected EventHandler<MouseEvent> onMouseExitedHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+			Region graphic = (Region) event.getSource();
+			IGraphNode graphNode = graph.getGraphNode(graphic);
+			
+			if (graphNode != null) {
+				// pass execution to graph node
+				graphNode.onHoverEnd(graph, graphic);
+				
+				event.consume();
+			}
+			else {
+				throw new IllegalArgumentException("graphic " + event.getSource() + " does not belong to a graph node");
 			}
 		}
 	};

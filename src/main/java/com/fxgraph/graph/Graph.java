@@ -1,6 +1,9 @@
 package com.fxgraph.graph;
 
 import com.fxgraph.layout.Layout;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Parent;
@@ -8,9 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Region;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Encapsulates a 2d graph model (graph nodes: cells, edges) and its presentation onto a specialized javafx pane.
@@ -29,9 +30,14 @@ public class Graph {
 	 */
 	private final PannableCanvas pannableCanvas;
 	/**
-	 * Maintains a mapping of graph nodes to their corresponding graphics.
+	 * Maintains a mapping of graph nodes to their corresponding graphics.<br><br>
+	 * 
+	 * This map is bidirectional, so each key and value can only exist once in the same graph, and the inverse
+	 * view is backed by the same data.
+	 * 
+	 * @see BiMap
 	 */
-	private final Map<IGraphNode, Region> graphics;
+	private final BiMap<IGraphNode, Region> graphics;
 	/**
 	 * Node gestures (cell drag translation).
 	 */
@@ -69,12 +75,25 @@ public class Graph {
 		useNodeGestures = new SimpleBooleanProperty(true);
 		useNodeGestures.addListener((obs, oldVal, newVal) -> {
 			if (newVal) {
-				model.getAllCells().forEach(cell -> nodeGestures.makeDraggable(getGraphic(cell)));
-			} else {
-				model.getAllCells().forEach(cell -> nodeGestures.makeUndraggable(getGraphic(cell)));
+				model.getAllCells().forEach(cell -> {
+					nodeGestures.makeDraggable(getGraphic(cell));
+					nodeGestures.makeHoverable(getGraphic(cell));
+				});
+				model.getAllEdges().forEach(edge -> {
+					nodeGestures.makeHoverable(getGraphic(edge));
+				});
+			} 
+			else {
+				model.getAllCells().forEach(cell -> {
+					nodeGestures.makeUndraggable(getGraphic(cell));
+					nodeGestures.makeUnhoverable(getGraphic(cell));
+				});
+				model.getAllEdges().forEach(edge -> {
+					nodeGestures.makeUnhoverable(getGraphic(edge));
+				});
 			}
 		});
-
+		
 		pannableCanvas = new PannableCanvas();
 		viewportGestures = new ViewportGestures(this);
 		useViewportGestures = new SimpleBooleanProperty(true);
@@ -109,8 +128,8 @@ public class Graph {
 				newVal.addEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
 			}
 		});
-
-		graphics = new HashMap<>();
+		
+		graphics = HashBiMap.create();
 
 		addEdges(getModel().getAllEdges());
 		addCells(getModel().getAllCells());
@@ -245,6 +264,17 @@ public class Graph {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+	
+	/**
+	 * Get the corresponding graph node for the given graphic.
+	 * 
+	 * @param graphic The node's graphic.
+	 * 
+	 * @return The graph node, or {@code null} if {@code graphic} is not in the graph.
+	 */
+	public IGraphNode getGraphNode(Region graphic) {
+		return graphics.inverse().get(graphic);
 	}
 
 	/**

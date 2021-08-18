@@ -18,19 +18,34 @@ public interface IGraphNode {
 	 * @return The fx node used to display the graph node.
 	 */
 	public Region getGraphic(Graph graph);
+	
 	/**
 	 * Handler for this node being added to a graph.
 	 * 
 	 * @param graph The graph to which the graph node will be added.
-	 * @param region The fx node used to display the graph node.
+	 * @param region The fx node (graphic) used to display the graph node.
 	 */
 	default void onAddedToGraph(Graph graph, Region region) {}
 	/**
 	 * Handler for when this node is removed from a graph.
 	 * 
 	 * @param graph The graph from which the graph node will be removed.
-	 * @param region The fx node used to display the graph node.
+	 * @param region The fx node (graphic) used to display the graph node.
 	 */
 	default void onRemovedFromGraph(Graph graph, Region region) {}
-
+	
+	/**
+	 * Handler for when a hover begins on a graphic for this node.
+	 * 
+	 * @param graph The graph to which this graphic belongs.
+	 * @param region The associated fx node graphic.
+	 */
+	default void onHoverBegin(Graph graph, Region graphic) {}
+	/**
+	 * Handler for when a hover ends on a graphic for this node.
+	 * 
+	 * @param graph The graph to which this graphic belongs.
+	 * @param region The associated fx node graphic.
+	 */
+	default void onHoverEnd(Graph graph, Region graphic) {}
 }
