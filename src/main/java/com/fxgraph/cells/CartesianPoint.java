@@ -21,6 +21,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -52,6 +53,14 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 	 * A unique style class for targeting cartesian point graphics for css in the graph.
 	 */
 	public static final String UNIQUE_STYLE_CLASS = "cartesian-point";
+	/**
+	 * A unique style class for the label within a point graphic.
+	 */
+	public static final String LABEL_STYLE_CLASS = "cartesian-point-label";
+	/**
+	 * A unique style class for the bullet within a point graphic.
+	 */
+	public static final String BULLET_STYLE_CLASS = "cartesian-point-bullet";
 	
 	/**
 	 * Default bullet radius.
@@ -105,6 +114,13 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 	 * The point's text that gets displayed as a label and contains coordinate information.
 	 */
 	private StringProperty text;
+	
+	/**
+	 * When to show the point label.
+	 * 
+	 * @see ShowFrequency
+	 */
+	private ShowFrequency showLabel;
 	
 	static {
 		defaultNumberFormat = NumberFormat.getNumberInstance();
@@ -171,6 +187,8 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 		updateText.changed(null, null, null);
 		this.x.addListener(updateText);
 		this.y.addListener(updateText);
+		
+		showLabel = ShowFrequency.ON_HOVER;
 	}
 	
 	/**
@@ -185,7 +203,27 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 		graphic.setFillWidth(false);
 		
 		Label label = new Label();
+		label.getStyleClass().add(LABEL_STYLE_CLASS);
+		
+		switch (showLabel) {
+			case ALWAYS:
+				label.setVisible(true);
+				label.setManaged(true);
+				break;
+				
+			case ON_HOVER:
+				label.setVisible(false);
+				label.setManaged(true);
+				break;
+				
+			case NEVER:
+				label.setVisible(false);
+				label.setManaged(false);
+				break;
+		}
+		
 		Region bullet = new Region();
+		bullet.getStyleClass().add(BULLET_STYLE_CLASS);
 		
 		// bind graphic location
 		graphic.layoutXProperty().bindBidirectional(x);
@@ -237,6 +275,38 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 		// center 
 		
 		return graphic;
+	}
+	
+	/**
+	 * Show text label if {@link #showLabel} is {@code ON_HOVER}.
+	 */
+	public boolean onHoverBegin(Graph graph, Region graphic) {
+		if (showLabel.equals(ShowFrequency.ON_HOVER)) {
+			Node label = graphic.lookup("." + LABEL_STYLE_CLASS);
+			
+			if (label != null) {
+				label.setVisible(true);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Hide text label if {@link #showLabel} is {@code ON_HOVER}.
+	 */
+	public boolean onHoverEnd(Graph graph, Region graphic) {
+		if (showLabel.equals(ShowFrequency.ON_HOVER)) {
+			Node label = graphic.lookup("." + LABEL_STYLE_CLASS);
+			
+			if (label != null) {
+				label.setVisible(false);
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -480,5 +550,27 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 		 * Default bullet type.
 		 */
 		private static final BulletType DEFAULT = CIRCLE;
+	}
+	
+	/**
+	 * Options for when to show a graphic.
+	 * 
+	 * @author <a href="https://github.com/ogallagher">ogallagher</a>
+	 * @since 18 August 2021
+	 *
+	 */
+	public static enum ShowFrequency {
+		/**
+		 * Always show.
+		 */
+		ALWAYS,
+		/**
+		 * Show on hover.
+		 */
+		ON_HOVER,
+		/**
+		 * Never show.
+		 */
+		NEVER;
 	}
 }

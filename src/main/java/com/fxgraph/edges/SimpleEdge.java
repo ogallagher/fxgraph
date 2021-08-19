@@ -10,7 +10,10 @@ import com.fxgraph.graph.IEdge;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 /**
@@ -102,6 +105,9 @@ public class SimpleEdge extends AbstractEdge {
 		 */
 		public SimpleEdgeGraphic(SimpleEdge edge, Graph graph) {
 			super();
+			
+			// graphic pane should ignore mouse events completely
+			setMouseTransparent(true);
 			
 			// define a unique style class
 			getStyleClass().add(UNIQUE_STYLE_CLASS);

@@ -31,11 +31,12 @@ public class CartesianGraphDemo extends Application {
 	public void start(Stage stage) throws Exception {
 		CartesianGraph graph = new CartesianGraph(CartesianGraph.PlotMode.CONNECTED_POINTS);
 		
-		graph.getUseViewportGestures().set(true);
-		graph.getUseNodeGestures().set(true);
-		
 		// add example datasets to the graph
 		populateGraph(graph);
+		
+		graph.getUseViewportGestures().set(true);
+		graph.getUseNodeGestures().set(false);
+		graph.getUseNodeGestures().set(true);
 		
 		// configure initial viewport
 		graph.layout();

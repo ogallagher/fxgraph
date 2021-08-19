@@ -83,7 +83,7 @@ public class Graph {
 				model.getAllEdges().forEach(edge -> {
 					nodeGestures.makeHoverable(getGraphic(edge));
 				});
-			} 
+			}
 			else {
 				model.getAllCells().forEach(cell -> {
 					nodeGestures.makeUndraggable(getGraphic(cell));
