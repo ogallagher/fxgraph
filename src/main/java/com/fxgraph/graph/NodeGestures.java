@@ -197,9 +197,9 @@ public class NodeGestures {
 			
 			if (graphNode != null) {
 				// pass execution to graph node
-				graphNode.onHoverBegin(graph, graphic);
-				
-				event.consume();
+				if (graphNode.onHoverBegin(graph, graphic)) {
+					event.consume();
+				}
 			}
 			else {
 				throw new IllegalArgumentException("graphic " + event.getSource() + " does not belong to a graph node");
@@ -219,9 +219,9 @@ public class NodeGestures {
 			
 			if (graphNode != null) {
 				// pass execution to graph node
-				graphNode.onHoverEnd(graph, graphic);
-				
-				event.consume();
+				if (graphNode.onHoverEnd(graph, graphic)) {
+					event.consume();
+				}
 			}
 			else {
 				throw new IllegalArgumentException("graphic " + event.getSource() + " does not belong to a graph node");

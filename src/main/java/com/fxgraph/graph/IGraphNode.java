@@ -43,13 +43,17 @@ public interface IGraphNode {
 	 * 
 	 * @param graph The graph to which this graphic belongs.
 	 * @param region The associated fx node graphic.
+	 * 
+	 * @return {@code true} if the hover event was handled and should be consumed.
 	 */
-	default void onHoverBegin(Graph graph, Region graphic) {}
+	default boolean onHoverBegin(Graph graph, Region graphic) {return false;}
 	/**
 	 * Handler for when a hover ends on a graphic for this node.
 	 * 
 	 * @param graph The graph to which this graphic belongs.
 	 * @param region The associated fx node graphic.
+	 * 
+	 * @return {@code true} if the hover event was handled and should be consumed.
 	 */
-	default void onHoverEnd(Graph graph, Region graphic) {}
+	default boolean onHoverEnd(Graph graph, Region graphic) {return false;}
 }

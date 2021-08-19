@@ -275,16 +275,18 @@ public class SequenceDiagram extends Graph {
 		 * Respond to a mouse entering this edge's associated graphic.
 		 */
 		@Override
-		public void onHoverBegin(Graph graph, Region graphic) {
+		public boolean onHoverBegin(Graph graph, Region graphic) {
 			graphic.setStyle("-fx-background-color: #00000011;");
+			return true;
 		}
 		
 		/**
 		 * Respond to a mouse leaving this edge's associated graphic.
 		 */
 		@Override
-		public void onHoverEnd(Graph graph, Region graphic) {
+		public boolean onHoverEnd(Graph graph, Region graphic) {
 			graphic.setStyle("-fx-background-color: transparent;");
+			return true;
 		}
 		
 		public String getName() {
