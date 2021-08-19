@@ -94,6 +94,7 @@ public class NodeGestures {
 	 */
 	public void makeHoverable(final Region graphic) {
 		graphic.setOnMouseEntered(onMouseEnteredHandler);
+		graphic.setOnMouseExited(onMouseExitedHandler);
 	}
 	
 	/**
@@ -105,7 +106,8 @@ public class NodeGestures {
 	 * event source is a {@code Region}.
 	 */
 	public void makeUnhoverable(final Region graphic) {
-		graphic.setOnMouseExited(onMouseExitedHandler);
+		graphic.setOnMouseEntered(null);
+		graphic.setOnMouseExited(null);
 	}
 	
 	/**
