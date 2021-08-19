@@ -64,16 +64,18 @@ public class MessageEdge extends AbstractEdge implements IMessageEdge {
 	 * @see <a href="https://github.com/ogallagher/fxgraph/issues/13#issuecomment-901334463">ogallagher/fxgraph #13</a>
 	 */
 	@Override
-	public void onHoverBegin(Graph graph, Region graphic) {
+	public boolean onHoverBegin(Graph graph, Region graphic) {
 		// System.out.println(this.name + " hover begin");
+		return false;
 	}
 	
 	/**
 	 * TODO Respond to a mouse leaving this edge's associated graphic.
 	 */
 	@Override
-	public void onHoverEnd(Graph graph, Region graphic) {
+	public boolean onHoverEnd(Graph graph, Region graphic) {
 		// System.out.println(this.name + " hover end");
+		return false;
 	}
 
 	/**
