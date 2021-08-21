@@ -223,6 +223,7 @@ public class Graph {
 				getCanvas().getChildren().add(cellGraphic);
 				if (useNodeGestures.get()) {
 					nodeGestures.makeDraggable(cellGraphic);
+					nodeGestures.makeHoverable(cellGraphic);
 				}
 				cell.onAddedToGraph(this, cellGraphic);
 			} catch (final Exception e) {
