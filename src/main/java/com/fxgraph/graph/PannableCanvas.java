@@ -13,7 +13,8 @@ import javafx.scene.layout.Pane;
  */
 public class PannableCanvas extends Pane {
 	/**
-	 * Viewport scale (default is {@code 1.0}).
+	 * Viewport scale (default is {@code 1.0}). Note that the canvas x and y scale properties will bind to this value
+	 * to maintain <i>square</i> zoom.
 	 */
 	private final DoubleProperty scaleProperty;
 	

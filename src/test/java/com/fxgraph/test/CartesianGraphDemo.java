@@ -8,12 +8,14 @@ import com.fxgraph.cells.CartesianPoint;
 import com.fxgraph.graph.CartesianGraph;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * Demonstration of a {@link CartesianGraph cartesian graph} with multiple datasets/plots over a set of
@@ -29,21 +31,25 @@ public class CartesianGraphDemo extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		CartesianGraph graph = new CartesianGraph(CartesianGraph.PlotMode.CONNECTED_POINTS);
+		CartesianGraph graph = new CartesianGraph(CartesianGraph.PlotMode.CONNECTED_POINTS, 600, 500);
 		
 		// add example datasets to the graph
 		populateGraph(graph);
 		
 		graph.getUseViewportGestures().set(true);
-		graph.getUseNodeGestures().set(false);
 		graph.getUseNodeGestures().set(true);
-		
-		// configure initial viewport
-		graph.layout();
 		
 		// Configure interaction buttons and behavior
 		graph.getViewportGestures().setPanButton(MouseButton.PRIMARY);
 		graph.getNodeGestures().setDragButton(MouseButton.PRIMARY);
+		
+		// configure initial viewport
+		stage.setOnShown(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				graph.layout();
+			}
+		});
 		
 		// Display the graph
 		stage.setScene(new Scene(new BorderPane(graph.getCanvas())));
@@ -51,8 +57,8 @@ public class CartesianGraphDemo extends Application {
 	}
 	
 	private static void populateGraph(CartesianGraph graph) {
-		float domain = 500;
-		float halfRange = 250;
+		float domain = 1000;
+		float halfRange = 200;
 		double numPi = Math.PI * 1.5;
 		
 		// 1. add a full named dataset, in scrambled order

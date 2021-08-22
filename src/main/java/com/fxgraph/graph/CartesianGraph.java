@@ -37,7 +37,7 @@ public class CartesianGraph extends Graph {
 	 */
 	private FitToContentLayout layout;
 	
-	public CartesianGraph(PlotMode plotMode) {
+	public CartesianGraph(PlotMode plotMode, int width, int height) {
 		// instantiate graph with a plotting model
 		super(new MultiplotModel());
 		
@@ -48,6 +48,8 @@ public class CartesianGraph extends Graph {
 		
 		// set cartesian-specific parameters
 		this.plotMode = plotMode;
+		
+		getCanvas().setPrefSize(width, height);
 		
 		layout = new FitToContentLayout();
 	}
@@ -156,7 +158,9 @@ public class CartesianGraph extends Graph {
 	}
 	
 	/**
-	 * Given placement of points on the canvas, update the viewport so all data graphics are visible.
+	 * Given placement of points on the canvas, update the viewport so all data graphics are visible.<br><br>
+	 * 
+	 * Calls {@link FitToContentLayout#execute(Graph) layout.execute(this)}.
 	 */
 	public void layout() {
 		layout.execute(this);
@@ -192,5 +196,17 @@ public class CartesianGraph extends Graph {
 		 * Points are shown, as well as the lines connecting them.
 		 */
 		CONNECTED_POINTS;
+	}
+	
+	/**
+	 * An axis in a cartesian graph that can be either horizontal or vertical, representing the x or y axis. It remains
+	 * fixed to an edge of the viewport and can display unit ticks and have a label.
+	 * 
+	 * <br><br><b>NOT YET IMPLEMENTED</b>
+	 * 
+	 * @author <a href="https://github.com/ogallagher">ogallagher</a>
+	 */
+	public static class CartesianAxis {
+		// TODO here
 	}
 }

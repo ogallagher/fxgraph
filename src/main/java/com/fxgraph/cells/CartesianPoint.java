@@ -87,11 +87,11 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 	private CartesianPoint greater;
 	
 	/**
-	 * The point's x value.
+	 * The point's x data value.
 	 */
 	private DoubleProperty x;
 	/**
-	 * The point's y value.
+	 * The point's y data value.
 	 */
 	private DoubleProperty y;
 	
@@ -225,7 +225,7 @@ public class CartesianPoint implements ICell, Comparable<CartesianPoint> {
 		Region bullet = new Region();
 		bullet.getStyleClass().add(BULLET_STYLE_CLASS);
 		
-		// bind graphic location
+		// bind graphic location, allow drag to change x,y
 		graphic.layoutXProperty().bindBidirectional(x);
 		graphic.layoutYProperty().bindBidirectional(y);
 		
