@@ -59,7 +59,7 @@ public class BasicGraphDemo extends Application {
 	private void populateGraph(Graph graph) {
 		final Model model = graph.getModel();
 		
-		graph.beginUpdate();
+		graph.clearCanvas();
 		
 		final ICell cellA = new RectangleCell();
 		final ICell cellB = new RectangleCell();
@@ -101,6 +101,6 @@ public class BasicGraphDemo extends Application {
 
 		model.addEdge(cellB, cellD);
 
-		graph.endUpdate();
+		graph.repopulateCanvas();
 	}
 }

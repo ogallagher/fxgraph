@@ -61,7 +61,7 @@ public class SequenceDiagram extends Graph {
 	public void addActor(IActorCell actor) {
 		actors.add(actor);
 		getModel().addCell(actor);
-		endUpdate();
+		repopulateCanvas();
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class SequenceDiagram extends Graph {
 	public void addMessage(IMessageEdge edge) {
 		messages.add(edge);
 		getModel().addEdge(edge);
-		endUpdate();
+		repopulateCanvas();
 	}
 	
 	/**

@@ -45,7 +45,7 @@ public class SequenceDiagramDemo extends Application {
 	 * @param diagram The sequence diagram to add to.
 	 */
 	private void populateGraph(SequenceDiagram diagram) {
-		diagram.beginUpdate();
+		diagram.clearCanvas();
 		
 		final IActorCell cellA = new ActorCell("Planning", 60.0);
 		final IActorCell cellB = new ActorCell("Design", 360.0);
@@ -67,6 +67,6 @@ public class SequenceDiagramDemo extends Application {
 		diagram.addMessage(cellE, cellD, "User reports bug");
 		diagram.addMessage(cellE, cellB, "New requirement");
 
-		diagram.endUpdate();
+		diagram.repopulateCanvas();
 	}
 }

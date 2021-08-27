@@ -131,25 +131,23 @@ public class Graph {
 	}
 	
 	/**
-	 * Clears all widgets from the graph canvas.
-	 * <br><br>
-	 * This method seems misleading, as an update to the graph shouldn't necessarily mean all current
-	 * graph nodes be removed.
+	 * Clears all graph node graphics from the graph canvas. The underlying graph nodes in the {@link Model model} are
+	 * not affected.
 	 */
-	public void beginUpdate() {
+	public void clearCanvas() {
 		getCanvas().getChildren().clear();
 	}
-
+	
 	/**
-	 * Add and remove the appropriate cells and edges as listed in the {@link Model model}. Then call
+	 * Add and remove the graph node graphics as listed in the {@link Model model}. Then call
 	 * {@link Model#endUpdate()}.
 	 */
-	public void endUpdate() {
-		// add components to graph pane
+	public void repopulateCanvas() {
+		// add nodes to graph canvas
 		addEdges(model.getAddedEdges());
 		addCells(model.getAddedCells());
-
-		// remove components to graph pane
+		
+		// remove nodes from graph pane
 		removeEdges(model.getRemovedEdges());
 		removeCells(model.getRemovedCells());
 
