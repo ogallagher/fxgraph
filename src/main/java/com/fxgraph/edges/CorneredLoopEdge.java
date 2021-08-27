@@ -165,8 +165,7 @@ public class CorneredLoopEdge extends AbstractEdge {
 				}
 
 				centerY = sourceY.add(targetY).divide(2);
-			} 
-			else {
+			} else {
 				sourceX = x.subtract(w.divide(2.0).multiply(width));
 				targetX = x.add(w.divide(2.0).multiply(width));
 
@@ -216,8 +215,7 @@ public class CorneredLoopEdge extends AbstractEdge {
 
 				setupArrow(centerX, targetY, targetX, targetY);
 				group.getChildren().add(arrow);
-			} 
-			else {
+			} else {
 				lineA.startXProperty().bind(sourceX);
 				lineA.startYProperty().bind(sourceY);
 				lineA.endXProperty().bind(sourceX);
