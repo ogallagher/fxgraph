@@ -26,13 +26,15 @@ public abstract class AbstractEdge implements IEdge {
 	 * Whether this edge is directed.
 	 */
 	private final boolean isDirected;
-
+	
 	/**
 	 * @param source Source cell.
 	 * @param target Target cell.
 	 * @param isDirected Whether the edge is directed.
+	 * 
+	 * @throws NullPointerException If {@code source} or {@code target} is {@code null}.
 	 */
-	public AbstractEdge(ICell source, ICell target, boolean isDirected) {
+	public AbstractEdge(ICell source, ICell target, boolean isDirected) throws NullPointerException {
 		this.source = source;
 		this.target = target;
 		this.isDirected = isDirected;

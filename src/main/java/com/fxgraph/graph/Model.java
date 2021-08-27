@@ -164,7 +164,7 @@ public class Model implements Serializable {
 	 * @param cell The cell to remove.
 	 * @throws NullPointerException If {@code cell} is {@code null}.
 	 */
-	public void removeCell(ICell cell) {
+	public void removeCell(ICell cell) throws NullPointerException {
 		if(cell == null) {
 			throw new NullPointerException("Cannot remove a null cell");
 		}
@@ -200,8 +200,10 @@ public class Model implements Serializable {
 	 * Remove an edge from the model.
 	 * 
 	 * @param edge
+	 * 
+	 * @throws NullPointerException if {@code edge} is {@code null}.
 	 */
-	public void removeEdge(IEdge edge) {
+	public void removeEdge(IEdge edge) throws NullPointerException {
 		if(edge == null) {
 			throw new NullPointerException("Cannot remove a null edge");
 		}
