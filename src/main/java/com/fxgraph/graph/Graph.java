@@ -55,9 +55,9 @@ public class Graph {
 	public Graph() {
 		this(new Model());
 	}
-
+	
 	/**
-	 * {@link Graph} constructor defines a model to contain cells and edges, default drag-translate node
+	 * Defines a model to contain cells and edges, default drag-translate node
 	 * gestures, and default drag-pan and scroll-zoom viewport gestures.
 	 * 
 	 * @param model The model which will contain references to included graph nodes (cells, edges).

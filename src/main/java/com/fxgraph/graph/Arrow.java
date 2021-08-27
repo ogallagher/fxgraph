@@ -18,7 +18,7 @@ public class Arrow extends Group {
     private final Line line;
     
     /**
-     * Convenience constructor for {@link #Arrow(Line, Line, Line)} with three empty {@link Line} constructors.
+     * Convenience constructor for {@link #Arrow(Line, Line, Line)} with three empty lines.
      */
     public Arrow() {
         this(new Line(), new Line(), new Line());
@@ -36,7 +36,6 @@ public class Arrow extends Group {
     }
     
     /**
-     * 
      * @param line Central main line.
      * @param arrow1 First fin line, whose end points will be updated depending on the arrow dimensions 
      * and the direction of the main line.

@@ -39,8 +39,6 @@ public class NodeGestures {
 	private Node lastTransparentNode;
 
 	/**
-	 * {@link NodeGestures} constructor.
-	 * 
 	 * @param graph The graph to which interactive graph nodes belong.
 	 */
 	public NodeGestures(Graph graph) {

@@ -34,8 +34,8 @@ public class CorneredEdge extends AbstractEdge {
 	private final Orientation orientation;
 
 	/**
-	 * Convenience constructor for {@link #CorneredEdge(ICell, ICell, boolean, Orientation)}, being not
-	 * directed.
+	 * Convenience constructor for 
+	 * {@link #CorneredEdge(ICell, ICell, boolean, Orientation) CorneredEdge(source, target, false, orientation)}.
 	 * 
 	 * @param source Source cell.
 	 * @param target Target cell.
@@ -46,8 +46,6 @@ public class CorneredEdge extends AbstractEdge {
 	}
 
 	/**
-	 * {@link CorneredEdge} constructor.
-	 * 
 	 * @param source Source cell.
 	 * @param target Target cell.
 	 * @param isDirected Whether the edge is directed.

@@ -39,7 +39,11 @@ public class CorneredLoopEdge extends AbstractEdge {
 	 * Which side of the cell the edge is on.
 	 */
 	private final Position pos;
-
+	
+	/**
+	 * @param target Cell to connect with.
+	 * @param pos The edge of the cell where loop edge is displayed.
+	 */
 	public CorneredLoopEdge(ICell target, Position pos) {
 		super(target, target, true);
 		this.pos = pos;

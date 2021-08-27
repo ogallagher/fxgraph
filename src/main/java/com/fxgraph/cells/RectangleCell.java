@@ -14,9 +14,6 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class RectangleCell extends AbstractCell {
-	/**
-	 * Empty default constructor.
-	 */
 	public RectangleCell() {
 	}
 	

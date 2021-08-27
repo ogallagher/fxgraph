@@ -33,8 +33,6 @@ public class MessageEdge extends AbstractEdge implements IMessageEdge {
 	private final DoubleProperty yOffsetProperty = new SimpleDoubleProperty();
 	
 	/**
-	 * {@link MessageEdge} constructor.
-	 * 
 	 * @param source Source actor, which sends the message.
 	 * @param target Target actor, which receives the message.
 	 * @param name Message name.
@@ -64,8 +62,6 @@ public class MessageEdge extends AbstractEdge implements IMessageEdge {
 	 */
 	private static class EdgeGraphic extends AbstractEdgeGraphic {
 		/**
-		 * {@link EdgeGraphic} constructor.
-		 * 
 		 * @param graph The graphic to whose canvas this graphic will be added.
 		 * @param edge The message edge represented by this edge graphic.
 		 */

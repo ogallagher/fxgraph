@@ -34,8 +34,8 @@ public class DoubleCorneredEdge extends AbstractEdge {
 	private final Orientation orientation;
 
 	/**
-	 * Convenience constructor for {@link #DoubleCorneredEdge(ICell, ICell, boolean, Orientation)} with
-	 * {@code isDirected=false}.
+	 * Convenience constructor for 
+	 * {@link #DoubleCorneredEdge(ICell, ICell, boolean, Orientation) DoubleCorneredEdge(source, target, false, orientation}.
 	 * 
 	 * @param source Source cell.
 	 * @param target Target cell.
@@ -46,8 +46,6 @@ public class DoubleCorneredEdge extends AbstractEdge {
 	}
 
 	/**
-	 * {@link DoubleCorneredEdge} constructor.
-	 * 
 	 * @param source Source cell.
 	 * @param target Target cell.
 	 * @param isDirected Whether the edge is directed, with a terminal arrow.
@@ -90,8 +88,6 @@ public class DoubleCorneredEdge extends AbstractEdge {
 		private final Line lineC = new Line();
 		
 		/**
-		 * {@link EdgeGraphic DoubleCorneredEdge.EdgeGraphic} constructor.
-		 * 
 		 * @param graph The graph to whose canvas this edge graphic will be added.
 		 * @param edge The corresponding double cornered edge.
 		 * @param orientation Edge orientation, horizontal or vertical.

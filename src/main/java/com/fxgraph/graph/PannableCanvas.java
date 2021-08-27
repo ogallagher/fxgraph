@@ -18,14 +18,14 @@ public class PannableCanvas extends Pane {
 	private final DoubleProperty scaleProperty;
 	
 	/**
-	 * {@link PannableCanvas} default constructor.
+	 * Initialize the canvas with scale {@code 1.0}.
 	 */
 	public PannableCanvas() {
 		this(new SimpleDoubleProperty(1.0));
 	}
-
+	
 	/**
-	 * Fully specified {@link PannableCanvas} constructor.
+	 * Fully specified constructor.
 	 * 
 	 * @param scaleProperty Initial value for {@link #scaleProperty}.
 	 */

@@ -15,9 +15,6 @@ import javafx.scene.transform.Scale;
  *
  */
 public class TriangleCell extends AbstractCell {
-	/**
-	 * Empty default constructor.
-	 */
 	public TriangleCell() {
 	}
 

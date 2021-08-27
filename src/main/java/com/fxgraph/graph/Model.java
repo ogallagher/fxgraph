@@ -49,9 +49,9 @@ public class Model implements Serializable {
 	 * Temporary references to newly removed edges, which are cleared on {@link Model#merge()}.
 	 */
 	private transient ObservableList<IEdge> removedEdges;
-
+	
 	/**
-	 * {@link Model} constructor. Creates the empty root cell and calls {@link #clear()}.
+	 * Creates the empty root cell and calls {@link #clear()}.
 	 */
 	public Model() {
 		root = new AbstractCell() {

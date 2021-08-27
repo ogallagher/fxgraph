@@ -26,7 +26,7 @@ public class Edge extends AbstractEdge {
 	private transient final StringProperty textProperty;
 
 	/**
-	 * Convenience constructor for an undirected edge.
+	 * Convenience constructor for {@link #Edge(ICell, ICell, boolean) Edge(source, target, false)}.
 	 * 
 	 * @param source Source cell.
 	 * @param target Target cell.
@@ -36,8 +36,6 @@ public class Edge extends AbstractEdge {
 	}
 
 	/**
-	 * Full {@link Edge} constructor.
-	 * 
 	 * @param source Source cell.
 	 * @param target Target cell.
 	 * @param isDirected Whether this edge is directed.
@@ -78,8 +76,6 @@ public class Edge extends AbstractEdge {
 		private final Line line;
 		
 		/**
-		 * {@link EdgeGraphic} constructor.
-		 * 
 		 * @param graph The graph to whose canvas the edge graphic will be added. 
 		 * @param edge The associated edge graph node.
 		 * @param textProperty The edge text property to which this graphic's label will be bound.

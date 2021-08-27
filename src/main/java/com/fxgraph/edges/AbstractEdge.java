@@ -28,8 +28,6 @@ public abstract class AbstractEdge implements IEdge {
 	private final boolean isDirected;
 
 	/**
-	 * {@link AbstractEdge} constructor.
-	 * 
 	 * @param source Source cell.
 	 * @param target Target cell.
 	 * @param isDirected Whether the edge is directed.

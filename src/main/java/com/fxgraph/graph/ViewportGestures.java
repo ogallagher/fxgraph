@@ -47,8 +47,6 @@ public class ViewportGestures {
 	private MouseButton panButton = MouseButton.PRIMARY;
 	
 	/**
-	 * {@link ViewportGestures} constructor.
-	 * 
 	 * @param graph The graph whose viewport will be updated by these gestures.
 	 */
 	public ViewportGestures(Graph graph) {
