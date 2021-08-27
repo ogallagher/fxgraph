@@ -158,9 +158,6 @@ public class ViewportGestures {
 	/**
 	 * Mouse wheel handler: zoom to pivot point. The pivot point is the cursor's viewport coordinates, relative
 	 * to which all graph nodes are scaled.
-	 * 
-	 * TODO ogallagher fix scaling, and perhaps use AffineTransform to handle the combination of viewport pan (translation) and
-	 * zoom (scale).
 	 */
 	private final EventHandler<ScrollEvent> onScrollEventHandler = new EventHandler<ScrollEvent>() {
 		@Override

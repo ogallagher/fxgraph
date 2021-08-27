@@ -32,9 +32,6 @@ public class NodeGestures {
 	/**
 	 * If the mouse button for viewport panning is used to start a drag over a graph node, that graph node's
 	 * interactivity is disabled until that drag is complete.
-	 * <br><br>
-	 * TODO [ogallagher] It seems preferable to prioritize moving the node if the node drag button is the same as
-	 * the viewport drag button.
 	 */
 	private Node lastTransparentNode;
 

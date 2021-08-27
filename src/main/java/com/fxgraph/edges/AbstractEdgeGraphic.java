@@ -112,12 +112,12 @@ public abstract class AbstractEdgeGraphic extends Pane {
 		// Set position bindings and style
 		setupArrow(sourceX, sourceY, targetXFitted, targetYFitted);
 	}
-
+	
 	/**
 	 * Given a line from {@code source} to {@code target}, find an appropriate section with the edge of the target
-	 * graphic. Currently only works accurately for rectangular targets, using the bounding box.
+	 * graphic. Currently only works accurately for rectangular targets, using the bounding box.<br><br>
 	 * 
-	 * TODO extend to accurately terminate on the edge of any target shape.
+	 * In the future this could be extended to accurately terminate on the edge of any target shape.
 	 * 
 	 * @param source Source point.
 	 * @param target Target point.

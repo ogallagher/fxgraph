@@ -52,9 +52,6 @@ public class PannableCanvas extends Pane {
 	}
 	
 	/**
-	 * TODO [ogallagher] since this method is between the caller and the canvas property, I think
-	 * it makes sense to return a {@link javafx.beans.property.ReadOnlyDoubleProperty} view of the property.
-	 * 
 	 * @return {@link #scaleProperty}.
 	 */
 	public DoubleProperty scaleProperty() {

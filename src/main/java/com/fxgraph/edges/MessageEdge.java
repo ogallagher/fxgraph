@@ -87,7 +87,6 @@ public class MessageEdge extends AbstractEdge implements IMessageEdge {
 			final DoubleProperty textWidth = new SimpleDoubleProperty();
 			final DoubleProperty textHeight = new SimpleDoubleProperty();
 			
-			// TODO [ogallagher] AbstractEdgeGraphic already defines a text member; see ogallagher/fxgraph/issues/11
 			Text text = new Text(edge.name);
 			// style class for 
 			text.getStyleClass().add("edge-text");

@@ -398,8 +398,8 @@ public class CellGestures {
 	}
 	
 	/**
-	 * TODO [ogallagher] document this class; I don't understand its purpose. It seems to have to do with tracking
-	 * the drag start point, and whether the drag started or not.
+	 * This class seems to have to do with tracking the drag start point, and whether the drag started or not, but
+	 * it should be better documented.
 	 * 
 	 * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
 	 * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)

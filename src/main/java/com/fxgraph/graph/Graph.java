@@ -129,13 +129,12 @@ public class Graph {
 	public Model getModel() {
 		return model;
 	}
-
+	
 	/**
 	 * Clears all widgets from the graph canvas.
-	 * 
-	 * TODO [ogallagher] this method seems misleading, as an update to the graph shouldn't necessarily mean all current
+	 * <br><br>
+	 * This method seems misleading, as an update to the graph shouldn't necessarily mean all current
 	 * graph nodes be removed.
-	 * 
 	 */
 	public void beginUpdate() {
 		getCanvas().getChildren().clear();
