@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
  * Note that {@link com.fxgraph.cells.CellGestures} uses the same mouse button for enabling resize handles.
  * 
  * @author <a href="https://github.com/sirolf2009">sirolf2009</a>
+ * @author <a href="https://github.com/col-e">Col-E</a>
  * @author <a href="https://github.com/ogallagher">ogallagher</a> (javadoc)
  *
  */
