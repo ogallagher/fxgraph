@@ -223,6 +223,7 @@ public class MultiplotModel extends Model {
 	 * 
 	 * @throws UnsupportedOperationException Not allowed to attempt adding a cell that is not a point in a plot.
 	 */
+	@Override
 	public void addCell(ICell cell) throws UnsupportedOperationException {
 		throw new UnsupportedOperationException("not allowed to add a cell without it being a point in a plot");
 	}
@@ -232,6 +233,7 @@ public class MultiplotModel extends Model {
 	 * 
 	 * @param cell The cell to remove.
 	 */
+	@Override
 	public void removeCell(ICell cell) {
 		if (cell != null && cell instanceof CartesianPoint) {
 			// remove from plot
@@ -273,6 +275,29 @@ public class MultiplotModel extends Model {
 		else {
 			// skip edge from terminal point
 			return null;
+		}
+	}
+	
+	/**
+	 * Create a {@code SimpleEdge} between the second-to-last and last points in the given plot.
+	 * 
+	 * @param plotName The plot to which to add the edge. If {@code null}, the {@link #getPlotDefault() default plot} 
+	 * is used.
+	 * 
+	 * @return The added edge, or {@code null} if the plot was not found or the plot didn't have at least 2 points.
+	 */
+	public SimpleEdge addLastEdge(String plotName) {
+		if (plotName == null) {
+			plotName = this.plotDefault;
+		}
+		
+		List<CartesianPoint> plot = plots.get(plotName);
+		
+		if (plot == null || plot.size() < 2) {
+			return null;
+		}
+		else {
+			return addEdge(plot.get(plot.size()-2));
 		}
 	}
 	

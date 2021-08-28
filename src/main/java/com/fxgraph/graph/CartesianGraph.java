@@ -158,6 +158,28 @@ public class CartesianGraph extends Graph {
 	}
 	
 	/**
+	 * @param plotName The plot to which to add the edge.
+	 * @return The added edge.
+	 * 
+	 * @see MultiplotModel#addLastEdge(String)
+	 */
+	public SimpleEdge addLastEdge(String plotName) {
+		SimpleEdge edge = cartesianModel.addLastEdge(plotName);
+		
+		// commit canvas and model changes
+		endUpdate();
+		
+		return edge;
+	}
+	
+	/**
+	 * Convenience method for {@link #addLastEdge(String) addLastEdge(null)}.
+	 */
+	public SimpleEdge addLastEdge() {
+		return addLastEdge(null);
+	}
+	
+	/**
 	 * Given placement of points on the canvas, update the viewport so all data graphics are visible.<br><br>
 	 * 
 	 * Calls {@link FitToContentLayout#execute(Graph) layout.execute(this)}.
