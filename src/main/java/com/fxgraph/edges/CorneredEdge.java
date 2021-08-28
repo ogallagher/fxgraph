@@ -120,8 +120,7 @@ public class CorneredEdge extends AbstractEdge {
 					Region target = graph.getGraphic(edge.getTarget());
 					setupArrowIntersect(target, targetX, sourceY, targetX, targetY);
 					group.getChildren().add(arrow);
-				} 
-				else {
+				} else {
 					final Line lineB = new Line();
 					lineB.startXProperty().bind(targetX);
 					lineB.startYProperty().bind(sourceY);
@@ -132,8 +131,7 @@ public class CorneredEdge extends AbstractEdge {
 
 				text.xProperty().bind(targetX.subtract(textWidth.divide(2)));
 				text.yProperty().bind(sourceY.subtract(textHeight.divide(2)));
-			} 
-			else {
+			} else {
 				final Line lineA = new Line();
 				lineA.startXProperty().bind(sourceX);
 				lineA.startYProperty().bind(sourceY);
@@ -145,8 +143,7 @@ public class CorneredEdge extends AbstractEdge {
 					Region target = graph.getGraphic(edge.getTarget());
 					setupArrowIntersect(target, sourceX, targetY, targetX, targetY);
 					group.getChildren().add(arrow);
-				} 
-				else {
+				} else {
 					final Line lineB = new Line();
 					lineB.startXProperty().bind(sourceX);
 					lineB.startYProperty().bind(targetY);
@@ -158,27 +155,9 @@ public class CorneredEdge extends AbstractEdge {
 				text.xProperty().bind(sourceX.subtract(textWidth.divide(2)));
 				text.yProperty().bind(targetY.subtract(textHeight.divide(2)));
 			}
-
+			
 			group.getChildren().add(text);
 			getChildren().add(group);
-		}
-
-		/**
-		 * @deprecated Redundant.
-		 * 
-		 * @see AbstractEdgeGraphic#getGroup()
-		 */
-		public Group getGroup() {
-			return group;
-		}
-		
-		/**
-		 * @deprecated Redundant.
-		 * 
-		 * @see AbstractEdgeGraphic#getText()
-		 */
-		public Text getText() {
-			return text;
 		}
 	}
 }
